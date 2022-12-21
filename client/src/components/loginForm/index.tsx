@@ -1,9 +1,8 @@
 import { observer } from "mobx-react-lite";
 import React, { FC, useContext, useState } from "react";
-import { Context } from "../..";
+import { Context } from "../../index";
 
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
+import { Button, TextField, Paper } from "@mui/material";
 
 const LoginForm: FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -47,7 +46,10 @@ const LoginForm: FC = () => {
           justifyContent: "center",
         }}
       >
-        <Button variant="outlined" onClick={() => store.login(email, password)}>
+        <Button
+          variant="contained"
+          onClick={() => store.login(email, password)}
+        >
           Login
         </Button>
       </div>

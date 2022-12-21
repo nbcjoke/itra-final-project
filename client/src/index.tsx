@@ -1,9 +1,11 @@
 import React, { createContext } from "react";
 import ReactDOM from "react-dom/client";
-
-import { App } from "./App";
-import Store from "./store/store";
 import { BrowserRouter } from "react-router-dom";
+
+import Store from "./store/store";
+// import { ThemeProvider } from "./contexts/themeContext";
+import { ThemeContextProvider } from "./contexts/themeContext";
+import App from "./App";
 
 import "./reset.css";
 
@@ -23,7 +25,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <Context.Provider value={{ store }}>
     <BrowserRouter>
-      <App />
+      <ThemeContextProvider>
+        <App />
+      </ThemeContextProvider>
     </BrowserRouter>
   </Context.Provider>
 );
