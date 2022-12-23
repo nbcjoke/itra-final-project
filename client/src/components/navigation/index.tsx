@@ -1,21 +1,42 @@
-import { FC, useContext, useState } from "react";
+import { FC, useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-import { Button, IconButton, useColorScheme } from "@mui/material";
 import { Context } from "../../index";
-
-import styles from "./style.module.css";
 import { ThemeContext } from "../../contexts/themeContext";
+import {
+  Button,
+  IconButton,
+  useColorScheme,
+  Select,
+  SelectChangeEvent,
+  FormControl,
+  InputLabel,
+  MenuItem,
+} from "@mui/material";
 import { Brightness4, Brightness7 } from "@mui/icons-material";
 
-// import Brightness4Icon from "@mui/icons-material/Brightness4";
-// import Brightness7Icon from "@mui/icons-material/Brightness7";
+import styles from "./style.module.css";
 
 export const Navigation: FC = () => {
+  const [language, setLanguage] = useState<string>(
+    localStorage.getItem("i18nextLng") || "en"
+  );
+
+  const { t, i18n } = useTranslation();
+
   const { store } = useContext(Context);
 
   const { mode, toggleTheme } = useContext(ThemeContext);
   const { setMode } = useColorScheme();
+
+  useEffect(() => {
+    i18n.changeLanguage(language);
+  }, [language]);
+
+  const handleChangeLanguage = (event: SelectChangeEvent<typeof language>) => {
+    setLanguage(event.target.value);
+  };
 
   const changeTheme = () => {
     toggleTheme();
@@ -30,23 +51,34 @@ export const Navigation: FC = () => {
         <Link to="/info">Info</Link>
       </div>
       <div className={styles.navigation__right}>
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
+          <InputLabel id="demo-controlled-open-select-label">locale</InputLabel>
+          <Select
+            value={language}
+            label="locale"
+            onChange={handleChangeLanguage}
+          >
+            <MenuItem value="en">English</MenuItem>
+            <MenuItem value="rus">Русский</MenuItem>
+            {/* <MenuItem value="chi">Китай</MenuItem> */}
+          </Select>
+        </FormControl>
         <div>
-          {mode} mode
           <IconButton sx={{ ml: 1 }} onClick={changeTheme} color="inherit">
             {mode === "dark" ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
         </div>
         {store.isAuth ? (
           <>
-            <Link to="/profile">Profile</Link>
+            <Link to="/profile">{t("profile.title")}</Link>
             <Button variant="contained" onClick={() => store.logout()}>
-              logout
+              {t("button.logout")}
             </Button>
           </>
         ) : (
           <>
-            <Link to="/login">Login</Link>
-            <Link to="/Signup">Signup</Link>
+            <Link to="/login">{t("button.login")}</Link>
+            <Link to="/Signup">{t("button.signup")}</Link>
           </>
         )}
       </div>

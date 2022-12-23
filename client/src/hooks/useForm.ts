@@ -1,20 +1,18 @@
-// import { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 
-// export const useForm = (initialValues: {}) => {
-//   const [formValues, setFormValues] = useState(initialValues);
-//   const handleChange = useCallback(({ target }) => {
-//     const { value, name } = target;
+export const useForm = (initialValues: {}) => {
+  const [formValues, setFormValues] = useState(initialValues);
+  const handleChange = useCallback(({ target }: any) => {
+    const { value, name } = target;
 
-//     setFormValues((state) => ({
-//       ...state,
-//       [name]: value,
-//     }));
-//   }, []);
-//   const handleReset = useCallback(() => {
-//     setFormValues(initialValues);
-//   }, []);
+    setFormValues((state) => ({
+      ...state,
+      [name]: value,
+    }));
+  }, []);
+  const handleReset = useCallback(() => {
+    setFormValues(initialValues);
+  }, []);
 
-//   return { formValues, handleReset, handleChange };
-// };
-
-export {};
+  return { formValues, handleReset, handleChange };
+};

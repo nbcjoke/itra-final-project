@@ -6,6 +6,7 @@ import Store from "./store/store";
 // import { ThemeProvider } from "./contexts/themeContext";
 import { ThemeContextProvider } from "./contexts/themeContext";
 import App from "./App";
+import "./i18next";
 
 import "./reset.css";
 

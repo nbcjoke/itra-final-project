@@ -1,7 +1,8 @@
-import { observer } from "mobx-react-lite";
 import React, { FC, useContext, useState } from "react";
-import { Context } from "../../index";
+import { observer } from "mobx-react-lite";
+import { useTranslation } from "react-i18next";
 
+import { Context } from "../../index";
 import { Button, TextField, Paper } from "@mui/material";
 
 const LoginForm: FC = () => {
@@ -9,6 +10,8 @@ const LoginForm: FC = () => {
   const [password, setPassword] = useState<string>("");
 
   const { store } = useContext(Context);
+
+  const { t } = useTranslation();
 
   return (
     <>
@@ -23,14 +26,14 @@ const LoginForm: FC = () => {
         }}
       >
         <TextField
-          label="Email"
+          label={t("login.email")}
           variant="outlined"
           type="text"
           onChange={(e) => setEmail(e.target.value)}
           value={email}
         />
         <TextField
-          label="Password"
+          label={t("login.password")}
           variant="outlined"
           type="text"
           onChange={(e) => setPassword(e.target.value)}
@@ -50,7 +53,7 @@ const LoginForm: FC = () => {
           variant="contained"
           onClick={() => store.login(email, password)}
         >
-          Login
+          {t("button.login")}
         </Button>
       </div>
     </>
