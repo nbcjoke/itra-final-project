@@ -51,7 +51,9 @@ export const ThemeContext = createContext<ThemeProps>({
 });
 
 export const ThemeContextProvider: FC<ThemeContextProps> = ({ children }) => {
-  const [mode, setMode] = useState<Mode>("light");
+  const [mode, setMode] = useState<Mode>(
+    (localStorage.getItem("mui-mode") as Mode) || "light"
+  );
 
   const toggleTheme = () => {
     setMode(mode === "light" ? "dark" : "light");

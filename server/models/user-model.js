@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const findOrCreate = require("mongoose-findorcreate");
 
 const UserSchema = new Schema({
   email: { type: String, required: true, unique: true },
@@ -8,5 +9,7 @@ const UserSchema = new Schema({
   registrationTime: { type: String, required: true },
   lastOnline: { type: String, required: true },
 });
+
+UserSchema.plugin(findOrCreate);
 
 module.exports = model("User", UserSchema);

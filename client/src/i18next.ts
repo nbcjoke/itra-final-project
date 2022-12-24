@@ -9,7 +9,7 @@ i18n
   //   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: "en",
+    fallbackLng: localStorage.getItem("locale") || "en",
     debug: true,
 
     interpolation: {
@@ -45,9 +45,12 @@ i18n
             },
             tags: "tags",
           },
+          locale: {
+            locale: "Locale",
+          },
         },
       },
-      rus: {
+      ru: {
         translation: {
           button: {
             logout: "Выйти",
@@ -68,12 +71,16 @@ i18n
             addReview: "Добавить обзор",
             nameOfReview: "Название обзора",
             name: "Название",
+            groups: "Группа",
             group: {
               cinema: "Кино",
               game: "Игры",
               book: "Книги",
             },
             tags: "Тэги",
+          },
+          locale: {
+            locale: "Язык",
           },
         },
       },

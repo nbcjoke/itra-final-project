@@ -20,7 +20,7 @@ import styles from "./style.module.css";
 
 export const Navigation: FC = () => {
   const [language, setLanguage] = useState<string>(
-    localStorage.getItem("i18nextLng") || "en"
+    localStorage.getItem("locale") || "en"
   );
 
   const { t, i18n } = useTranslation();
@@ -36,6 +36,7 @@ export const Navigation: FC = () => {
 
   const handleChangeLanguage = (event: SelectChangeEvent<typeof language>) => {
     setLanguage(event.target.value);
+    localStorage.setItem("locale", event.target.value);
   };
 
   const changeTheme = () => {
@@ -52,14 +53,16 @@ export const Navigation: FC = () => {
       </div>
       <div className={styles.navigation__right}>
         <FormControl sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel id="demo-controlled-open-select-label">locale</InputLabel>
+          <InputLabel id="demo-controlled-open-select-label">
+            {t("locale.locale")}
+          </InputLabel>
           <Select
             value={language}
             label="locale"
             onChange={handleChangeLanguage}
           >
             <MenuItem value="en">English</MenuItem>
-            <MenuItem value="rus">Русский</MenuItem>
+            <MenuItem value="ru">Русский</MenuItem>
             {/* <MenuItem value="chi">Китай</MenuItem> */}
           </Select>
         </FormControl>
@@ -78,7 +81,7 @@ export const Navigation: FC = () => {
         ) : (
           <>
             <Link to="/login">{t("button.login")}</Link>
-            <Link to="/Signup">{t("button.signup")}</Link>
+            <Link to="/s  ignup">{t("button.signup")}</Link>
           </>
         )}
       </div>

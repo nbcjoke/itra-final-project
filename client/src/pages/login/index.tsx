@@ -1,13 +1,30 @@
 import { FC, useContext, useEffect } from "react";
-import { Context } from "../../index";
-import { useNavigate } from "react-router-dom";
+
+import { Button } from "@mui/material";
+import { FacebookOutlined, LinkedIn, GitHub } from "@mui/icons-material";
 
 import LoginForm from "../../components/loginForm";
-import { ROUTE_NAMES } from "../../routes/routeNames";
 import { observer } from "mobx-react-lite";
 
 const Login: FC = () => {
-  return <LoginForm />;
+  const github = () => {
+    window.open("http://localhost:5000/auth/github", "_self");
+  };
+
+  return (
+    <div>
+      <LoginForm />
+      <Button variant="contained" endIcon={<FacebookOutlined />}>
+        Facebook
+      </Button>
+      <Button variant="contained" endIcon={<LinkedIn />}>
+        LinkedIn
+      </Button>
+      <Button variant="contained" endIcon={<GitHub />} onClick={github}>
+        Github
+      </Button>
+    </div>
+  );
 };
 
 export default observer(Login);
