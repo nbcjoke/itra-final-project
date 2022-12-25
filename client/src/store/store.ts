@@ -4,6 +4,8 @@ import { AuthService } from "../services/authService";
 import axios from "axios";
 import { AuthResponse } from "../models/response/authResponse";
 import { API_URL } from "../api/config";
+import { ReviewService } from "../services/reviewService";
+import { ReviewModel } from "../models/reviewModel";
 
 export default class Store {
   user = {} as UserModel;
@@ -75,6 +77,14 @@ export default class Store {
       console.log(e.response?.data?.message);
     } finally {
       this.setLoading(false);
+    }
+  }
+
+  async createReview(review: ReviewModel) {
+    try {
+      const response = await ReviewService.createReview(review);
+    } catch (e: any) {
+      console.log(e.response?.data?.message);
     }
   }
 }

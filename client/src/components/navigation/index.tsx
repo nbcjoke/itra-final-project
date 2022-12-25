@@ -81,7 +81,7 @@ export const Navigation: FC = () => {
         ) : (
           <>
             <Link to="/login">{t("button.login")}</Link>
-            <Link to="/s  ignup">{t("button.signup")}</Link>
+            <Link to="/signup">{t("button.signup")}</Link>
           </>
         )}
       </div>
