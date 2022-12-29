@@ -1,0 +1,15 @@
+.container {
+  padding: 50px;
+}
+
+.reviewsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.title {
+  color: var(--mui-palette-primary-main);
+}

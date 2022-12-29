@@ -1,11 +1,13 @@
 import { FC, useState, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import ReactStars from "react-stars";
 
+import { TagService } from "../../services/tagService";
 import { Context } from "../../index";
+import { MarkdownContext } from "../../contexts/markdownContext";
 import { useForm } from "../../hooks/useForm";
 import { MarkedInput } from "../markdown/markedInput";
 import { ResultInput } from "../markdown/resultInput";
-import { MarkdownContext } from "../../contexts/markdownContext";
 import {
   TextField,
   InputLabel,
@@ -15,15 +17,15 @@ import {
   Typography,
   Autocomplete,
   Button,
+  Paper,
 } from "@mui/material";
 
 import styles from "./style.module.css";
-import { TagService } from "../../services/tagService";
-import { setEmitFlags } from "typescript";
 
 export const AddReview: FC = () => {
   const [markdownText, setMarkdownText] = useState("");
   const [tags, setTags] = useState([]);
+  const [rate, setRate] = useState<number>();
 
   const { store } = useContext(Context);
 
@@ -35,7 +37,13 @@ export const AddReview: FC = () => {
     group: "",
     description: "",
     tags: [],
+    rate: "",
   });
+
+  const ratingChanged = (newRate: number) => {
+    console.log(newRate);
+    setRate(newRate);
+  };
 
   const contextValue = {
     markdownText,
@@ -49,14 +57,14 @@ export const AddReview: FC = () => {
   useEffect(() => {
     const fetchTags = async () => {
       const response: any = await TagService.getTags();
-      console.log(response);
+      console.log(response.map(({ name }: any) => name));
       setTags(response.map(({ name }: any) => name));
     };
     fetchTags();
   }, []);
 
   return (
-    <div className={styles.container}>
+    <Paper className={styles.container}>
       <Typography variant="h4">{t("profile.addReview")}</Typography>
       <TextField
         label={t("profile.nameOfReview")}
@@ -89,11 +97,10 @@ export const AddReview: FC = () => {
         </Select>
       </FormControl>
       <Autocomplete
-        style={{ width: "223px" }}
+        className={styles.autocomplete}
         multiple
         id="tags-standard"
         options={tags}
-        // getOptionLabel={(option: any) => option.name}
         freeSolo
         onChange={autocompleteChange}
         renderInput={(params) => (
@@ -101,10 +108,16 @@ export const AddReview: FC = () => {
             {...params}
             name="tags"
             variant="standard"
-            label="Multiple values"
-            placeholder="Favorites"
+            label={t("profile.tags")}
           />
         )}
+      />
+      <ReactStars
+        count={10}
+        onChange={ratingChanged}
+        size={40}
+        color2={"#ffd700"}
+        half={false}
       />
       <MarkdownContext.Provider value={contextValue}>
         <div className={styles.markdown__container}>
@@ -113,13 +126,18 @@ export const AddReview: FC = () => {
         </div>
       </MarkdownContext.Provider>
       <Button
+        className={styles.button}
         variant="contained"
         onClick={() =>
-          store.createReview({ ...formValues, description: markdownText })
+          store.createReview({
+            ...formValues,
+            description: markdownText,
+            rate: rate,
+          })
         }
       >
-        {t("button.login")}
+        {t("button.add")}
       </Button>
-    </div>
+    </Paper>
   );
 };

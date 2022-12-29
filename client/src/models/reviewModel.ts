@@ -4,5 +4,6 @@ export interface ReviewModel {
   theme: string;
   description: string;
   tags: string[];
-  groups: string;
+  group: string;
+  rate: number;
 }

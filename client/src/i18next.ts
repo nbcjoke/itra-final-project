@@ -22,6 +22,7 @@ i18n
             logout: "Logout",
             login: "Login",
             signup: "Signup",
+            add: "Add",
           },
           login: {
             email: "Email",
@@ -44,9 +45,21 @@ i18n
               book: "Book",
             },
             tags: "tags",
+            markdown: {
+              markdown: "Markdown Text",
+              result: "Converted Text",
+              title: "Name of",
+              category: "Category: ",
+              rate: "Rate",
+              description: "Description",
+            },
           },
           locale: {
             locale: "Locale",
+          },
+          home: {
+            home: "Home",
+            latest: "Latest Reviews",
           },
         },
       },
@@ -56,6 +69,7 @@ i18n
             logout: "Выйти",
             login: "Войти",
             signup: "Регистрация",
+            add: "Добавить",
           },
           login: {
             email: "Адрес почты",
@@ -78,9 +92,21 @@ i18n
               book: "Книги",
             },
             tags: "Тэги",
+            markdown: {
+              markdown: "Разметка",
+              result: "Результат",
+            },
           },
           locale: {
             locale: "Язык",
+          },
+          home: {
+            home: "Главная Страница",
+            latest: "Последние Обзоры",
+            title: "Название",
+            category: "Категория: ",
+            rate: "Рейтинг",
+            description: "Описание",
           },
         },
       },

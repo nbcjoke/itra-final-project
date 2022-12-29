@@ -1,12 +1,15 @@
-import { FC, useContext } from "react";
+import { useContext } from "react";
+import { useTranslation } from "react-i18next";
 
+import { MarkdownContext } from "../../contexts/markdownContext";
 import { TextareaAutosize, Typography } from "@mui/material";
 
 import styles from "./style.module.css";
-import { MarkdownContext } from "../../contexts/markdownContext";
 
 export const MarkedInput = () => {
   const { setMarkdownText } = useContext(MarkdownContext);
+
+  const { t } = useTranslation();
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdownText(event.target.value);
@@ -15,12 +18,12 @@ export const MarkedInput = () => {
   return (
     <div className={styles.container}>
       <Typography className={styles.title} variant="h5">
-        Markdown Text
+        {t("profile.markdown.markdown")}
       </Typography>
       <TextareaAutosize
         aria-label="minimum height"
         minRows={20}
-        placeholder="Markdown text"
+        placeholder={t("profile.markdown.markdown") as string}
         className={styles.textarea}
         onChange={handleChange}
       />

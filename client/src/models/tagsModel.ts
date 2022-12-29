@@ -1,9 +1,5 @@
-export interface TagsModel {
+export interface TagModel {
   _id: string;
-  email: string;
   name: string;
-  status: boolean;
-  registrationTime: string;
-  selected?: boolean;
-  lastOnline: string;
+  count: number;
 }

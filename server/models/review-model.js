@@ -9,6 +9,7 @@ const ReviewSchema = new Schema({
   description: { type: String, required: true },
   tags: { type: Array, required: true },
   images: { type: Array },
+  rate: { type: Number, required: true },
 });
 
 ReviewSchema.post("save", async (review) => {
