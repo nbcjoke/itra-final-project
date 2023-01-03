@@ -1,3 +1,4 @@
+import { UserModel } from "./userModel";
 export interface ReviewModel {
   _id: string;
   name: string;
@@ -6,4 +7,6 @@ export interface ReviewModel {
   tags: string[];
   group: string;
   rate: number;
+  user: UserModel;
+  userRate?: number;
 }

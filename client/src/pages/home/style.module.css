@@ -13,3 +13,15 @@
 .title {
   color: var(--mui-palette-primary-main);
 }
+
+.tagCloud {
+  padding: 20px;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 50px;
+}

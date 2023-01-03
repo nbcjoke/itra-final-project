@@ -44,12 +44,19 @@ export const Navigation: FC = () => {
     setMode(mode === "dark" ? "light" : "dark");
   };
 
+  const categories = ["game", "book", "cinema"];
+
   return (
     <div className={styles.navigation}>
       <div className={styles.navigation__left}>
         <Link to="/">Home</Link>
-        <Link to="/calendar">Calendar</Link>
-        <Link to="/info">Info</Link>
+        {categories.map((category, index) => {
+          return (
+            <Link to={category} key={index}>
+              {category}
+            </Link>
+          );
+        })}
       </div>
       <div className={styles.navigation__right}>
         <FormControl sx={{ m: 1, minWidth: 120 }}>

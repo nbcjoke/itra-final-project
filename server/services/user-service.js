@@ -51,6 +51,8 @@ class UserService {
     const userDto = new UserDto(user);
     const tokens = tokenService.generateToken({ ...userDto });
 
+    // console.log("TOKENS", tokens);
+
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
     await user.updateOne({ lastOnline: new Date() });
@@ -67,16 +69,20 @@ class UserService {
   }
 
   async refresh(refreshToken) {
+    // console.log(refreshToken);
     if (!refreshToken) {
       throw ApiError.UnauthorizedError();
     }
     const userData = tokenService.validateRefreshToken(refreshToken);
+    // console.log("DATA", userData);
     const tokenFromDb = await tokenService.findToken(refreshToken);
     if (!userData || !tokenFromDb) {
       throw ApiError.UnauthorizedError();
     }
-    const user = await UserModel.find({ _id: refreshToken._id });
-    const userDto = new UserDto(user);
+    // console.log(userData);
+
+    // const user = await UserModel.find({ _id: refreshToken._id });
+    const userDto = new UserDto(userData);
     const tokens = tokenService.generateToken({ ...userDto });
 
     await tokenService.saveToken(userDto.id, tokens.refreshToken);

@@ -27,6 +27,8 @@ export const AddReview: FC = () => {
   const [tags, setTags] = useState([]);
   const [rate, setRate] = useState<number>();
 
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
   const { store } = useContext(Context);
 
   const { t } = useTranslation();
@@ -133,6 +135,7 @@ export const AddReview: FC = () => {
             ...formValues,
             description: markdownText,
             rate: rate,
+            user: user,
           })
         }
       >

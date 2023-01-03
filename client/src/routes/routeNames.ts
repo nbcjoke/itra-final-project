@@ -3,6 +3,7 @@ export const ROUTE_NAMES = {
   LOGIN: "/login",
   SIGNUP: "/signup",
   PROFILE: "/profile",
+  CATEGORY: "/:category",
   //   INFO: "/info",
   //   CALENDAR: "/calendar",
 };

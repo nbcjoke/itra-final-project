@@ -7,8 +7,16 @@ export class ReviewService {
     return api.post("/review", { review });
   }
 
-  static async getReviews(): Promise<any> {
-    return api.get("/reviews").then((response: AxiosResponse) => response.data);
+  static async getReviews(
+    limit: number,
+    offset: number,
+    category?: string
+  ): Promise<any> {
+    return api
+      .get(`/reviews`, {
+        params: { limit, offset, category },
+      })
+      .then((response: AxiosResponse) => response.data);
   }
 
   static async getUserReviews() {

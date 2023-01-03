@@ -1,12 +1,12 @@
 import { FC, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Typography } from "@mui/material";
-import { AddReview } from "../../components/addReview";
-
-import styles from "./style.module.css";
 import { ReviewService } from "../../services/reviewService";
 import { ReviewModel } from "../../models/reviewModel";
+import { AddReview } from "../../components/addReview";
+import { Typography } from "@mui/material";
+
+import styles from "./style.module.css";
 
 export const Profile: FC = () => {
   const [review, setReviews] = useState([] as ReviewModel[]);

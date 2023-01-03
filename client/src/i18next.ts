@@ -48,7 +48,7 @@ i18n
             markdown: {
               markdown: "Markdown Text",
               result: "Converted Text",
-              title: "Name of",
+              title: "Name",
               category: "Category: ",
               rate: "Rate",
               description: "Description",
@@ -60,6 +60,10 @@ i18n
           home: {
             home: "Home",
             latest: "Latest Reviews",
+            title: "Name",
+            category: "Category: ",
+            rate: "Rate",
+            description: "Description",
           },
         },
       },
