@@ -1,6 +1,7 @@
 const userService = require("../services/user-service");
 const { validationResult } = require("express-validator");
 const ApiError = require("../exceptions/api-error");
+const jwt = require("jsonwebtoken");
 
 class UserController {
   async registration(req, res, next) {
@@ -29,16 +30,14 @@ class UserController {
   async login(req, res, next) {
     try {
       const { email, password } = req.body;
-      const userData = await userService.login(email, password);
-      res.cookie("refreshToken", userData.refreshToken, {
+      const user = await userService.login(email, password);
+      const token = jwt.sign(user, process.env.JWT_ACCESS_SECRET);
+      console.log(token);
+      res.cookie("token", token, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
       });
-      res.cookie("accessToken", userData.accessToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-      });
-      return res.json(userData);
+      return res.json({ user, token });
     } catch (err) {
       next(err);
     }
@@ -46,9 +45,9 @@ class UserController {
 
   async logout(req, res, next) {
     try {
-      const { refreshToken } = req.cookies;
-      const token = await userService.logout(refreshToken);
-      res.clearCookie("refreshToken");
+      // const { refreshToken } = req.cookies;
+      const token = await userService.logout();
+      res.clearCookie("token");
       return res.json(token);
     } catch (err) {
       next(err);
@@ -60,14 +59,14 @@ class UserController {
       const { refreshToken } = req.cookies;
       const userData = await userService.refresh(refreshToken);
       // console.log(userData);
-      res.cookie("refreshToken", userData.refreshToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-      });
-      res.cookie("accessToken", userData.accessToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-      });
+      // res.cookie("refreshToken", userData.refreshToken, {
+      //   maxAge: 30 * 24 * 60 * 60 * 1000,
+      //   httpOnly: true,
+      // });
+      // res.cookie("accessToken", userData.accessToken, {
+      //   maxAge: 30 * 24 * 60 * 60 * 1000,
+      //   httpOnly: true,
+      // });
       return res.json(userData);
     } catch (err) {
       next(err);

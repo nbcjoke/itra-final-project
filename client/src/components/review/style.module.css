@@ -6,13 +6,17 @@
   padding: 20px;
 }
 
+.review .MuiPaper {
+  border-radius: 25px;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.rateContainer {
+.titleContainer {
   display: flex;
   gap: 20px;
   align-items: center;
@@ -44,4 +48,14 @@
 
 .text {
   font-size: 22px;
+}
+
+.rateContainer {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.rateContainer h2 {
+  margin-left: auto;
 }

@@ -6,6 +6,8 @@ import { Context } from "../../index";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
+import styles from "./style.module.css";
+
 const SignUpForm: FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -16,17 +18,8 @@ const SignUpForm: FC = () => {
   const { t } = useTranslation();
 
   return (
-    <>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          maxWidth: "250px",
-          margin: "35vh auto 0",
-          gap: "15px",
-          justifyContent: "center",
-        }}
-      >
+    <form>
+      <div className={styles.signup}>
         <TextField
           label={t("signup.email")}
           variant="outlined"
@@ -64,7 +57,7 @@ const SignUpForm: FC = () => {
           {t("button.signup")}
         </Button>
       </div>
-    </>
+    </form>
   );
 };
 

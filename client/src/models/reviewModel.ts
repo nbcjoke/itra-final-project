@@ -9,4 +9,5 @@ export interface ReviewModel {
   rate: number;
   user: UserModel;
   userRate?: number;
+  averageRate?: number;
 }

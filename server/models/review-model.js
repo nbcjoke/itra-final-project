@@ -13,14 +13,6 @@ const ReviewSchema = new Schema({
   rate: { type: Number, required: true },
 });
 
-// ReviewSchema.virtual("averageRate").get(async function () {
-//   return 5;
-//   console.log("virtual", this);
-//   const rates = await rateModel.find({ review: this._id });
-//   console.log(rates.reduce((sum, rate) => sum + rate.rate, 0) / rates.length);
-//   return rates.reduce((sum, rate) => sum + rate.rate, 0) / rates.length || 0;
-// });
-
 ReviewSchema.post("save", async (review) => {
   console.log(review.tags);
   for (const tag of review.tags) {

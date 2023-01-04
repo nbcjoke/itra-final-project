@@ -19,15 +19,6 @@ class RateController {
       next(err);
     }
   }
-
-  async getRate(req, res) {
-    try {
-      const result = await RateModel.find().populate("user review");
-      res.status(200).json(result);
-    } catch (err) {
-      next(err);
-    }
-  }
 }
 
 module.exports = new RateController();

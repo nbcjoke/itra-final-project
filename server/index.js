@@ -22,13 +22,16 @@ app.use(
   cookieSession({
     name: "session",
     keys: ["nikita"],
+    // sameSite: true,
+    httpOnly: false,
     maxAge: 24 * 60 * 60 * 100,
+    signed: false,
   })
 );
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
-app.use("/api", router);
+app.use("/", router);
 app.use("/auth", authRouter);
 app.use(errorMiddleware);
 

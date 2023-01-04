@@ -1,16 +1,20 @@
 import { FC, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { observer } from "mobx-react-lite";
+import { useTranslation } from "react-i18next";
 
 import { Context } from "../../index";
 import { ROUTE_NAMES } from "../../routes/routeNames";
-import { Button } from "@mui/material";
-import { FacebookOutlined, LinkedIn, GitHub } from "@mui/icons-material";
-
 import LoginForm from "../../components/loginForm";
-import { observer } from "mobx-react-lite";
+import { SocialAuth } from "../../components/socialAuth";
+import { Divider, Chip } from "@mui/material";
+
+import styles from "./style.module.css";
 
 const Login: FC = () => {
   const { store } = useContext(Context);
+
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -20,22 +24,13 @@ const Login: FC = () => {
     }
   }, [store.isAuth]);
 
-  const github = () => {
-    window.open("http://localhost:5000/auth/github", "_self");
-  };
-
   return (
-    <div>
+    <div className={styles.login}>
       <LoginForm />
-      <Button variant="contained" endIcon={<FacebookOutlined />}>
-        Facebook
-      </Button>
-      <Button variant="contained" endIcon={<LinkedIn />}>
-        LinkedIn
-      </Button>
-      <Button variant="contained" endIcon={<GitHub />} onClick={github}>
-        Github
-      </Button>
+      <Divider orientation="vertical" flexItem>
+        <Chip label={t("divider.or")} />
+      </Divider>
+      <SocialAuth />
     </div>
   );
 };

@@ -25,18 +25,15 @@ class UserService {
       lastOnline: date,
     });
 
-    const userDto = new UserDto(user);
-    const tokens = tokenService.generateToken({ ...userDto });
-    await tokenService.saveToken(userDto.id, tokens.refreshToken);
+    // const userDto = new UserDto(user);
+    // const tokens = tokenService.generateToken({ ...userDto });
+    // await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
-    return {
-      ...tokens,
-      user: userDto,
-    };
+    return user;
   }
 
   async login(email, password) {
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email }).lean();
     if (!user) {
       throw ApiError.BadRequestError("Пользователь с таким email не найден");
     }
@@ -48,19 +45,7 @@ class UserService {
       throw ApiError.BadRequestError("Неверный пароль");
     }
 
-    const userDto = new UserDto(user);
-    const tokens = tokenService.generateToken({ ...userDto });
-
-    // console.log("TOKENS", tokens);
-
-    await tokenService.saveToken(userDto.id, tokens.refreshToken);
-
-    await user.updateOne({ lastOnline: new Date() });
-
-    return {
-      ...tokens,
-      user: userDto,
-    };
+    return user;
   }
 
   async logout(refreshToken) {

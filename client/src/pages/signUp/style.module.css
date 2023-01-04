@@ -1,0 +1,7 @@
+.signup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30vh auto 0;
+  gap: 65px;
+}

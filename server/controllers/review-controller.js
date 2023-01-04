@@ -69,18 +69,6 @@ class ReviewController {
     }
   }
 
-  async getReviewsByCategory(req, res, next) {
-    try {
-      const { category } = req.params;
-
-      const reviews = await ReviewModel.find({ group: category });
-
-      return res.json(reviews.reverse());
-    } catch (err) {
-      next(err);
-    }
-  }
-
   async getUserReviews(req, res, next) {
     try {
       const result = await ReviewModel.find().populate("user");

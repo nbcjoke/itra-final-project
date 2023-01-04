@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import { Context } from "../../index";
 import { Button, TextField, Paper } from "@mui/material";
 
+import styles from "./style.module.css";
+
 const LoginForm: FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -14,17 +16,8 @@ const LoginForm: FC = () => {
   const { t } = useTranslation();
 
   return (
-    <>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          maxWidth: "250px",
-          margin: "35vh auto 0",
-          gap: "15px",
-          justifyContent: "center",
-        }}
-      >
+    <form>
+      <div className={styles.login}>
         <TextField
           label={t("login.email")}
           variant="outlined"
@@ -56,7 +49,7 @@ const LoginForm: FC = () => {
           {t("button.login")}
         </Button>
       </div>
-    </>
+    </form>
   );
 };
 

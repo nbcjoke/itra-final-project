@@ -10,8 +10,4 @@ export class RateService {
   ): Promise<AxiosResponse> {
     return api.post("/addRate", { user, review, rate });
   }
-
-  static async getRate() {
-    return api.get("/getRate");
-  }
 }

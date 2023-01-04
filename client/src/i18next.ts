@@ -60,10 +60,15 @@ i18n
           home: {
             home: "Home",
             latest: "Latest Reviews",
+            cloud: "Tag Cloud",
+            mostRated: "Most Rated Reviews",
             title: "Name",
             category: "Category: ",
             rate: "Rate",
             description: "Description",
+          },
+          divider: {
+            or: "OR",
           },
         },
       },
@@ -107,10 +112,15 @@ i18n
           home: {
             home: "Главная Страница",
             latest: "Последние Обзоры",
+            cloud: "Хранилище Тэгов",
+            mostRated: "Самые Популярные Обзоры",
             title: "Название",
             category: "Категория: ",
             rate: "Рейтинг",
             description: "Описание",
+          },
+          divider: {
+            or: "ИЛИ",
           },
         },
       },

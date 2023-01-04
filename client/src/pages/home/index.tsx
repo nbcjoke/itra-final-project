@@ -5,28 +5,28 @@ import { useTranslation } from "react-i18next";
 import { TagService } from "../../services/tagService";
 import { ReviewService } from "../../services/reviewService";
 import { Review } from "../../components/review";
-import { Typography, Paper, Button } from "@mui/material";
-
-import styles from "./style.module.css";
 import { ReviewModel } from "../../models/reviewModel";
 import { TagModel } from "../../models/tagsModel";
+import { Typography, Paper, Button, Box } from "@mui/material";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+
+import styles from "./style.module.css";
 
 export const Home: FC = () => {
   const [tags, setTags] = useState<TagModel[]>([]);
   const [reviews, setReviews] = useState<ReviewModel[]>([]);
   const [limit] = useState(10);
   const [offset, setOffset] = useState(1);
+  const [value, setValue] = useState("1");
 
   const { t } = useTranslation();
 
   useEffect(() => {
     const fetchTags = async () => {
       const response: any = await TagService.getTags();
-      // setTags(
-      //   response.map(({ name, count, _id }: any) => {
-      //     return { value: name, count, _id };
-      //   })
-      // );
       setTags(
         response.map((tag: TagModel) => {
           return { ...tag, value: tag.name };
@@ -52,38 +52,58 @@ export const Home: FC = () => {
     window.scrollTo(0, 0);
   };
 
-  const disabled = () => {};
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
 
   return (
     <div className={styles.container}>
       <Typography variant="h2">{t("home.home")}</Typography>
-      <Typography variant="h4" className={styles.title}>
-        Tag Cloud
-      </Typography>
-      <Paper className={styles.tagCloud}>
-        <TagCloud
-          minSize={20}
-          maxSize={30}
-          tags={tags}
-          className="simple-cloud"
-        />
-      </Paper>
-      <Typography variant="h4" className={styles.title}>
-        {t("home.latest")}
-      </Typography>
-      <div className={styles.reviewsContainer}>
-        {reviews?.map((review) => {
-          return <Review review={review} key={review._id} />;
-        })}
-      </div>
-      <div className={styles.buttonContainer}>
-        <Button onClick={() => setOffset(offset + 1)} variant="contained">
-          Show More
-        </Button>
-        <Button onClick={handleReset} variant="contained">
-          Reset
-        </Button>
-      </div>
+      <TabContext value={value}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <TabList
+            onChange={handleChange}
+            aria-label="lab API tabs example"
+            style={{ justifyContent: "center" }}
+          >
+            <Tab label={t("home.cloud")} value="1" />
+            <Tab label={t("home.latest")} value="2" />
+            <Tab label={t("home.mostRated")} value="3" />
+          </TabList>
+        </Box>
+        <TabPanel value="1">
+          <Typography variant="h4" className={styles.title}>
+            Tag Cloud
+          </Typography>
+          <Paper className={styles.tagCloud}>
+            <TagCloud
+              minSize={20}
+              maxSize={30}
+              tags={tags}
+              className="simple-cloud"
+            />
+          </Paper>
+        </TabPanel>
+        <TabPanel value="2">
+          <Typography variant="h4" className={styles.title}>
+            {t("home.latest")}
+          </Typography>
+          <div className={styles.reviewsContainer}>
+            {reviews?.map((review) => {
+              return <Review review={review} key={review._id} />;
+            })}
+          </div>
+          <div className={styles.buttonContainer}>
+            <Button onClick={() => setOffset(offset + 1)} variant="contained">
+              Show More
+            </Button>
+            <Button onClick={handleReset} variant="contained">
+              Reset
+            </Button>
+          </div>
+        </TabPanel>
+        <TabPanel value="3">Item Three</TabPanel>
+      </TabContext>
     </div>
   );
 };

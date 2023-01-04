@@ -46,6 +46,18 @@ export const Navigation: FC = () => {
 
   const categories = ["game", "book", "cinema"];
 
+  // const categories = [
+  //   {
+  //     game: `${t("profile.group.game")}`,
+  //   },
+  //   {
+  //     book: `${t("profile.group.book")}`,
+  //   },
+  //   {
+  //     cinema: `${t("profile.group.cinema")}`,
+  //   },
+  // ];
+
   return (
     <div className={styles.navigation}>
       <div className={styles.navigation__left}>

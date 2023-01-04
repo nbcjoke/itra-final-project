@@ -7,7 +7,7 @@ export class AuthService {
     email: string,
     password: string
   ): Promise<AxiosResponse<AuthResponse>> {
-    return api.post("/login", { email, password });
+    return api.post("/auth/login", { email, password });
   }
 
   static async registration(
@@ -15,10 +15,10 @@ export class AuthService {
     password: string,
     name: string
   ): Promise<AxiosResponse<AuthResponse>> {
-    return api.post("/registration", { email, password, name });
+    return api.post("/auth/registration", { email, password, name });
   }
 
   static async logout(): Promise<void> {
-    return api.post("/logout");
+    return api.post("/auth/logout");
   }
 }
