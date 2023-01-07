@@ -3,6 +3,7 @@ const userController = require("../controllers/user-controller");
 const reviewController = require("../controllers/review-controller");
 const tagController = require("../controllers/tag-controller");
 const RateController = require("../controllers/rate-controller");
+const likeController = require("../controllers/like-controller");
 const router = new Router();
 const { body } = require("express-validator");
 const authMiddleware = require("../middlewares/auth-middleware");
@@ -22,15 +23,12 @@ router.post("/user/delete", userController.deleteUsers);
 router.put("/user/update", userController.updateStatus);
 
 router.post("/review", reviewController.createReview);
-router.get("/reviews", reviewController.getReviews);
+router.get("/reviews", authMiddleware, reviewController.getReviews);
 router.get("/user/reviews", reviewController.getUserReviews);
 
-router.post(
-  "/addRate",
-  authMiddleware,
-  passport.authenticate("jwt"),
-  RateController.addRate
-);
+router.post("/addRate", passport.authenticate("jwt"), RateController.addRate);
+
+router.post("/addRate", passport.authenticate("jwt"), likeController.like);
 
 router.get("/tags", tagController.getTags);
 

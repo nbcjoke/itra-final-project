@@ -3,6 +3,8 @@ import { AxiosResponse } from "axios";
 
 export class TagService {
   static async getTags(): Promise<any> {
-    return api.get("/tags").then((response: AxiosResponse) => response.data);
+    return api
+      .get("/api/tags")
+      .then((response: AxiosResponse) => response.data);
   }
 }

@@ -22,18 +22,21 @@ app.use(
   cookieSession({
     name: "session",
     keys: ["nikita"],
-    // sameSite: true,
     httpOnly: false,
     maxAge: 24 * 60 * 60 * 100,
     signed: false,
   })
 );
 app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.session());
 app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
-app.use("/", router);
+app.use("/api", router);
 app.use("/auth", authRouter);
 app.use(errorMiddleware);
+
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "static", "index.html"));
+});
 
 const start = async () => {
   try {

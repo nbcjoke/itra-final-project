@@ -3,6 +3,7 @@ const router = new Router();
 const passport = require("passport");
 const userController = require("../controllers/user-controller");
 const { body } = require("express-validator");
+const jwt = require("jsonwebtoken");
 
 const CLIENT_URL = process.env.CLIENT_URL;
 
@@ -22,15 +23,90 @@ router.get(
 
 router.get(
   "/github/callback",
-  passport.authenticate("github", {
-    successRedirect: CLIENT_URL,
-    failureRedirect: `${CLIENT_URL}/login`,
-  }),
-  function (req, res) {
-    console.log("radad");
-    console.log(res);
-    res.redirect("/");
+  function (req, res, next) {
+    passport.authenticate("github", { session: false }, (err, user, info) => {
+      console.log("here");
+      console.log(err);
+      // Decide what to do on authentication
+      if (err || !user) {
+        return res.redirect(
+          process.env.CLIENT_URL + "/login?error=" + info?.message
+        );
+      }
+      req.login(user, { session: false }, (err) => {
+        if (err) {
+          res.status(400).send({ err });
+        }
+        const token = jwt.sign(user.toObject(), process.env.JWT_ACCESS_SECRET);
+        res.cookie("token", token, {
+          domain: process.env.DOMAIN_NAME,
+        });
+        // console.log("here");
+        // console.log(process.env.CLIENT_URL + "/profile");
+        res.redirect(process.env.CLIENT_URL + "/profile");
+      });
+    })(req, res, next);
   }
+  // passport.authenticate("github", {
+  //   successRedirect: CLIENT_URL,
+  //   failureRedirect: `${CLIENT_URL}/login`,
+  // }),
+  // function (req, res) {
+  //   console.log("radad");
+  //   console.log(res);
+  //   res.redirect("/");
+  // }
 );
+
+router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
+
+router.get("/google/callback", function (req, res, next) {
+  passport.authenticate("google", { session: false }, (err, user, info) => {
+    console.log(err);
+    if (err || !user) {
+      return res.redirect(
+        process.env.CLIENT_URL + "/login?error=" + info?.message
+      );
+    }
+    req.login(user, { session: false }, (err) => {
+      if (err) {
+        res.status(400).send({ err });
+      }
+      const token = jwt.sign(user.toObject(), process.env.JWT_ACCESS_SECRET);
+      res.cookie("token", token, {
+        domain: process.env.DOMAIN_NAME,
+      });
+      res.redirect(process.env.CLIENT_URL + "/profile");
+    });
+  })(req, res, next);
+});
+
+router.get(
+  "/linkedin",
+  passport.authenticate("linkedin", {
+    scope: ["r_liteprofile"],
+  })
+);
+
+router.get("/linkedin/callback", function (req, res, next) {
+  passport.authenticate("linkedin", { session: false }, (err, user, info) => {
+    console.log(err);
+    if (err || !user) {
+      return res.redirect(
+        process.env.CLIENT_URL + "/login?error=" + info?.message
+      );
+    }
+    req.login(user, { session: false }, (err) => {
+      if (err) {
+        res.status(400).send({ err });
+      }
+      const token = jwt.sign(user.toObject(), process.env.JWT_ACCESS_SECRET);
+      res.cookie("token", token, {
+        domain: process.env.DOMAIN_NAME,
+      });
+      res.redirect(process.env.CLIENT_URL + "/profile");
+    });
+  })(req, res, next);
+});
 
 module.exports = router;

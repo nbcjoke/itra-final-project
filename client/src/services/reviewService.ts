@@ -4,7 +4,7 @@ import { ReviewModel } from "../models/reviewModel";
 
 export class ReviewService {
   static async createReview(review: ReviewModel): Promise<AxiosResponse> {
-    return api.post("/review", { review });
+    return api.post("/api/review", { review });
   }
 
   static async getReviews(
@@ -13,13 +13,13 @@ export class ReviewService {
     category?: string
   ): Promise<any> {
     return api
-      .get(`/reviews`, {
+      .get(`/api/reviews`, {
         params: { limit, offset, category },
       })
       .then((response: AxiosResponse) => response.data);
   }
 
   static async getUserReviews() {
-    return api.get("/user/reviews");
+    return api.get("/api/user/reviews");
   }
 }

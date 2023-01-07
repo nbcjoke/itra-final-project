@@ -8,6 +8,6 @@ export class RateService {
     review: object,
     rate: number
   ): Promise<AxiosResponse> {
-    return api.post("/addRate", { user, review, rate });
+    return api.post("/api/addRate", { user, review, rate });
   }
 }

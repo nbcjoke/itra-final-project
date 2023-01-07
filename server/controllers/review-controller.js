@@ -28,6 +28,7 @@ class ReviewController {
 
   async getReviews(req, res, next) {
     try {
+      console.log(req.user);
       const { limit, offset, category } = req.query;
       let query = ReviewModel.find();
       if (category) {

@@ -17,20 +17,19 @@ const App: FC = () => {
   const navigate = useNavigate();
   // const [cookies, setCookie] = useCookies(["session"]);
 
-  console.log(Cookies.get("session"));
+  // console.log(Cookies.get("session"));
 
   useEffect(() => {
-    console.log("cookie", Cookies.get("session"));
-    const session = Cookies.get("session");
-    if (session) {
-      localStorage.setItem("token", session);
-      Cookies.remove("session");
+    const token = Cookies.get("token");
+    if (token) {
+      localStorage.setItem("token", token);
+      Cookies.remove("token");
     }
 
     if (localStorage.getItem("token")) {
       store.checkAuth();
     }
-  }, []);
+  }, [store.isAuth]);
 
   return (
     <div>
