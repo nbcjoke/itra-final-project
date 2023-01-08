@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 import ReactStars from "react-stars";
+import { Link } from "react-router-dom";
 
 import { RateService } from "../../services/rateService";
 import { ReviewModel } from "../../models/reviewModel";
 import { Typography, Paper } from "@mui/material";
 
 import styles from "./style.module.css";
+import { API_URL } from "../../api/config";
 
 interface ReviewProps {
   review: ReviewModel;
@@ -17,13 +19,11 @@ export const Review: React.FC<ReviewProps> = ({ review }) => {
   //   const [rate, setRate] = useState<number>();
   const { t } = useTranslation();
 
-  const ratingChanged = async (newRate: number) => {
+  const ratingChanged = async (newRate: number, ...args: any) => {
     let user = JSON.parse(localStorage.getItem("user") || "{}");
     await RateService.addRate(user, review, newRate);
     // setRate(newRate);
   };
-
-  console.log(review.userRate);
 
   return (
     <Paper className={styles.review} key={review._id}>
@@ -47,12 +47,14 @@ export const Review: React.FC<ReviewProps> = ({ review }) => {
       </div>
       <div className={styles.images}></div>
       <div className={styles.infoContainer}>
-        <div className={styles.info}>
-          <Typography variant="h5" className={styles.title}>
-            {t("home.title")}:
-          </Typography>
-          <div className={styles.text}>{review.theme}</div>
-        </div>
+        <Link to={`/review/${review._id}`}>
+          <div className={styles.info}>
+            <Typography variant="h5" className={styles.title}>
+              {t("home.title")}:
+            </Typography>
+            <div className={styles.text}>{review.theme}</div>
+          </div>
+        </Link>
         <div className={styles.info}>
           <Typography variant="h5" className={styles.title}>
             {t("home.category")}
@@ -65,6 +67,11 @@ export const Review: React.FC<ReviewProps> = ({ review }) => {
           </Typography>
           <div className={styles.text}>{review.rate}</div>
         </div>
+      </div>
+      <div className={styles.imageContainer}>
+        {review.images.map((image) => (
+          <img src={`${API_URL}${image}`} width={250} height={250} />
+        ))}
       </div>
       <div className={styles.markdown}>
         <Typography variant="h5" className={styles.title}>

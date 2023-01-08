@@ -10,12 +10,19 @@ export class ReviewService {
   static async getReviews(
     limit: number,
     offset: number,
+    sortBy?: string,
     category?: string
   ): Promise<any> {
     return api
       .get(`/api/reviews`, {
-        params: { limit, offset, category },
+        params: { limit, offset, sortBy, category },
       })
+      .then((response: AxiosResponse) => response.data);
+  }
+
+  static async getReviewDetails(reviewId: string): Promise<any> {
+    return api
+      .get(`/api/review/${reviewId}`)
       .then((response: AxiosResponse) => response.data);
   }
 

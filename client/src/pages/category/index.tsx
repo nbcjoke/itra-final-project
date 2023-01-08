@@ -17,7 +17,7 @@ export const Category = () => {
   }, [category]);
 
   const fetchReviewsByCategory = async () => {
-    const response = await ReviewService.getReviews(10, 1, category);
+    const response = await ReviewService.getReviews(10, 1, undefined, category);
     setReviews(response);
   };
 

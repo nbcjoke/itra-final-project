@@ -4,21 +4,28 @@ const ReviewModel = require("../models/review-model");
 class RateController {
   async addRate(req, res, next) {
     try {
-      const { user, review, rate } = req.body;
-      console.log(req.body);
+      const { review, rate } = req.body;
 
-      const reviewById = await ReviewModel.find({ _id: review.id });
+      console.log("rate add", req.user._id);
 
-      const result = await RateModel.create({
-        user: user._id,
+      let rateObj = await RateModel.findOne({
         review: review._id,
-        rate,
+        user: req.user._id,
       });
-      const rateObject = await result.populate("user review");
-      console.log(rateObject);
-      res.status(200).json(rateObject);
+
+      if (rateObj) {
+        await rateObj.update({ rate });
+      } else {
+        rateObj = await RateModel.create({
+          user: req.user._id,
+          review: review._id,
+          rate,
+        });
+      }
+
+      rateObj = await rateObj.populate("user review");
+      res.status(200).json(rateObj);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }

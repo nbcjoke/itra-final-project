@@ -4,6 +4,7 @@ export const ROUTE_NAMES = {
   SIGNUP: "/signup",
   PROFILE: "/profile",
   CATEGORY: "/:category",
+  REVIEW: "/review/:id",
   //   INFO: "/info",
   //   CALENDAR: "/calendar",
 };

@@ -18,9 +18,10 @@ import styles from "./style.module.css";
 export const Home: FC = () => {
   const [tags, setTags] = useState<TagModel[]>([]);
   const [reviews, setReviews] = useState<ReviewModel[]>([]);
+  const [mostRatedReviews, setMostRatedReviews] = useState<ReviewModel[]>([]);
   const [limit] = useState(10);
   const [offset, setOffset] = useState(1);
-  const [value, setValue] = useState("1");
+  const [tab, setTab] = useState("1");
 
   const { t } = useTranslation();
 
@@ -46,23 +47,36 @@ export const Home: FC = () => {
     fetchReviews();
   }, [offset]);
 
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const response: any = await ReviewService.getReviews(
+        limit,
+        offset,
+        "averageRate"
+      );
+      setMostRatedReviews([...reviews, ...response]);
+    };
+
+    fetchReviews();
+  }, []);
+
   const handleReset = () => {
     setReviews([]);
     setOffset(1);
     window.scrollTo(0, 0);
   };
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
+  const tabChange = (event: React.SyntheticEvent, newValue: string) => {
+    setTab(newValue);
   };
 
   return (
     <div className={styles.container}>
       <Typography variant="h2">{t("home.home")}</Typography>
-      <TabContext value={value}>
+      <TabContext value={tab}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList
-            onChange={handleChange}
+            onChange={tabChange}
             aria-label="lab API tabs example"
             style={{ justifyContent: "center" }}
           >
@@ -102,7 +116,16 @@ export const Home: FC = () => {
             </Button>
           </div>
         </TabPanel>
-        <TabPanel value="3">Item Three</TabPanel>
+        <TabPanel value="3">
+          <Typography variant="h4" className={styles.title}>
+            {t("home.latest")}
+          </Typography>
+          <div className={styles.reviewsContainer}>
+            {mostRatedReviews?.map((review) => {
+              return <Review review={review} key={review._id} />;
+            })}
+          </div>
+        </TabPanel>
       </TabContext>
     </div>
   );

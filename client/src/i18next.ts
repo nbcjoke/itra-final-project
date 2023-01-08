@@ -70,6 +70,11 @@ i18n
           divider: {
             or: "OR",
           },
+          reviewDetails: {
+            title: "Review Details",
+            comment: "Comment...",
+            button: "Send Comment",
+          },
         },
       },
       ru: {
@@ -121,6 +126,11 @@ i18n
           },
           divider: {
             or: "ИЛИ",
+          },
+          reviewDetails: {
+            title: "Детали Обзора",
+            comment: "Комментарий...",
+            button: "Отправить Комментарий",
           },
         },
       },

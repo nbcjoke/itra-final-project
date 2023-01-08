@@ -22,7 +22,7 @@ export const SocialAuth = () => {
   return (
     <div className={styles.socialAuthContainer}>
       <Button variant="contained" endIcon={<Google />} onClick={google}>
-        Facebook
+        Google
       </Button>
       <Button variant="contained" endIcon={<LinkedIn />} onClick={linkedin}>
         LinkedIn

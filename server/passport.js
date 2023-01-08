@@ -32,16 +32,19 @@ passport.use(
       callbackURL: "/auth/google/callback",
     },
     async function (accessToken, refreshToken, profile, done) {
-      console.log(profile);
-      //   const user = await User.findOrCreate({ githubId: profile.id });
-      //   done(null, user);
-      const user = User.findOrCreate(
-        { email: profile.email, name: profile.displayName },
-        function (err, user) {
-          console.log(user);
-          return done(null, user);
-        }
-      );
+      let user = await User.findOne({
+        provider: profile.provider,
+        providerId: profile.id,
+      });
+      if (!user) {
+        user = await User.create({
+          name: profile.displayName,
+          email: profile.email,
+          provider: profile.provider,
+          providerId: profile.id,
+        });
+      }
+      return done(null, user);
     }
   )
 );
@@ -54,16 +57,19 @@ passport.use(
       callbackURL: "/auth/linkedin/callback",
     },
     async function (accessToken, refreshToken, profile, done) {
-      console.log(profile);
-      //   const user = await User.findOrCreate({ githubId: profile.id });
-      //   done(null, user);
-      const user = User.findOrCreate(
-        { email: profile.email, name: profile.displayName },
-        function (err, user) {
-          console.log(user);
-          return done(null, user);
-        }
-      );
+      let user = await User.findOne({
+        provider: profile.provider,
+        providerId: profile.id,
+      });
+      if (!user) {
+        user = await User.create({
+          name: profile.displayName,
+          email: profile.email,
+          provider: profile.provider,
+          providerId: profile.id,
+        });
+      }
+      return done(null, user);
     }
   )
 );
@@ -77,16 +83,19 @@ passport.use(
         "https://immense-scrubland-98892.herokuapp.com/auth/github/callback",
     },
     async function (accessToken, refreshToken, profile, done) {
-      console.log(profile);
-      //   const user = await User.findOrCreate({ githubId: profile.id });
-      //   done(null, user);
-      const user = User.findOrCreate(
-        { email: profile.email, name: profile.displayName },
-        function (err, user) {
-          console.log(user);
-          return done(null, user);
-        }
-      );
+      let user = await User.findOne({
+        provider: profile.provider,
+        providerId: profile.id,
+      });
+      if (!user) {
+        user = await User.create({
+          name: profile.displayName,
+          email: profile.email,
+          provider: profile.provider,
+          providerId: profile.id,
+        });
+      }
+      return done(null, user);
     }
   )
 );
@@ -96,9 +105,7 @@ opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = process.env.JWT_ACCESS_SECRET;
 passport.use(
   new JwtStrategy(opts, function (jwt_payload, done) {
-    console.log(jwt_payload);
-    User.findOne({ id: jwt_payload.email }, function (err, user) {
-      console.log("here");
+    User.findOne({ _id: jwt_payload._id }, function (err, user) {
       if (err) {
         return done(err, false);
       }

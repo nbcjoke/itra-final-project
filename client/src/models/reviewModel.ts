@@ -10,4 +10,5 @@ export interface ReviewModel {
   user: UserModel;
   userRate?: number;
   averageRate?: number;
+  images: string[];
 }
