@@ -6,6 +6,9 @@ import { TagService } from "../../services/tagService";
 import { Context } from "../../index";
 import { MarkdownContext } from "../../contexts/markdownContext";
 import { useForm } from "../../hooks/useForm";
+import { ImageService } from "../../services/imageService";
+import { API_URL } from "../../api/config";
+import { ReviewModel } from "../../models/reviewModel";
 import { MarkedInput } from "../markdown/markedInput";
 import { ResultInput } from "../markdown/resultInput";
 import {
@@ -20,12 +23,9 @@ import {
   Paper,
   IconButton,
 } from "@mui/material";
-import { Delete, Create } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
 
 import styles from "./style.module.css";
-import { ImageService } from "../../services/imageService";
-import { API_URL } from "../../api/config";
-import { ReviewModel } from "../../models/reviewModel";
 
 interface Props {
   review?: ReviewModel;
@@ -78,7 +78,6 @@ export const AddReview: FC<Props> = ({ review, cancelEdit }) => {
 
   const inputChange = (event: any) => {
     const { name, value } = event.target;
-    console.log(name, value);
     handleChange({ [name]: value });
   };
 

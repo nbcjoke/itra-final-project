@@ -5,8 +5,6 @@ const userController = require("../controllers/user-controller");
 const { body } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
-const CLIENT_URL = process.env.CLIENT_URL;
-
 router.post("/login", userController.login);
 router.post(
   "/registration",
@@ -23,9 +21,6 @@ router.get(
 
 router.get("/github/callback", function (req, res, next) {
   passport.authenticate("github", { session: false }, (err, user, info) => {
-    console.log("here");
-    console.log(err);
-    // Decide what to do on authentication
     if (err || !user) {
       return res.redirect(
         process.env.CLIENT_URL + "/login?error=" + info?.message
@@ -48,7 +43,6 @@ router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
 
 router.get("/google/callback", function (req, res, next) {
   passport.authenticate("google", { session: false }, (err, user, info) => {
-    console.log(err);
     if (err || !user) {
       return res.redirect(
         process.env.CLIENT_URL + "/login?error=" + info?.message
@@ -76,7 +70,6 @@ router.get(
 
 router.get("/linkedin/callback", function (req, res, next) {
   passport.authenticate("linkedin", { session: false }, (err, user, info) => {
-    console.log(err);
     if (err || !user) {
       return res.redirect(
         process.env.CLIENT_URL + "/login?error=" + info?.message

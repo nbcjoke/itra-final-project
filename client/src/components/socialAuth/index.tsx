@@ -7,7 +7,7 @@ import styles from "./style.module.css";
 
 export const SocialAuth = () => {
   const linkedin = () => {
-    window.open("http://localhost:5000/auth/linkedin", "_self");
+    window.open("/auth/linkedin", "_self");
   };
 
   const github = () => {
@@ -15,8 +15,7 @@ export const SocialAuth = () => {
   };
 
   const google = () => {
-    console.log("hello");
-    window.open("http://localhost:5000/auth/google", "_self");
+    window.open("/auth/google", "_self");
   };
 
   return (

@@ -21,7 +21,6 @@ class CommentController {
   async getComments(req, res, next) {
     try {
       const { reviewId } = req.params;
-      console.log("here", reviewId);
       const result = await CommentModel.find({ review: reviewId }).populate(
         "review user"
       );

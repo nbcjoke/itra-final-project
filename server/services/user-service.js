@@ -1,6 +1,5 @@
 const UserModel = require("../models/user-model");
 const bcrypt = require("bcrypt");
-const uuid = require("uuid");
 const tokenService = require("./token-service");
 const UserDto = require("../dtos/user-dto");
 const ApiError = require("../exceptions/api-error");
@@ -22,10 +21,6 @@ class UserService {
       name,
       isAdmin,
     });
-
-    // const userDto = new UserDto(user);
-    // const tokens = tokenService.generateToken({ ...userDto });
-    // await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
     return user;
   }
@@ -56,13 +51,11 @@ class UserService {
       throw ApiError.UnauthorizedError();
     }
     const userData = tokenService.validateRefreshToken(refreshToken);
-    // console.log("DATA", userData);
     const tokenFromDb = await tokenService.findToken(refreshToken);
     if (!userData || !tokenFromDb) {
       throw ApiError.UnauthorizedError();
     }
 
-    // const user = await UserModel.find({ _id: refreshToken._id });
     const userDto = new UserDto(userData);
     const tokens = tokenService.generateToken({ ...userDto });
 

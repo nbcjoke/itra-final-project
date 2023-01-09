@@ -6,8 +6,6 @@ const rateController = require("../controllers/rate-controller");
 const likeController = require("../controllers/like-controller");
 const commentController = require("../controllers/comment-controller");
 const router = new Router();
-const { body } = require("express-validator");
-const authMiddleware = require("../middlewares/auth-middleware");
 const passport = require("passport");
 const multer = require("multer");
 

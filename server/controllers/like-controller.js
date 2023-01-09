@@ -11,7 +11,6 @@ class LikeController {
         rate,
       });
       const rateObject = await result.populate("user review");
-      console.log(rateObject);
       res.status(200).json(rateObject);
     } catch (err) {
       console.log(err);

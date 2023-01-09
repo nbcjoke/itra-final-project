@@ -1,6 +1,5 @@
 import api from "../api/config";
 import { AxiosResponse } from "axios";
-import { RateModel } from "../models/rateModel";
 
 export class RateService {
   static async addRate(

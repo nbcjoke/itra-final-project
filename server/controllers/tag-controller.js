@@ -7,7 +7,6 @@ class TagController {
 
       return res.json(tags);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }

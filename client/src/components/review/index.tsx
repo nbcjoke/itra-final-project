@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 import ReactStars from "react-stars";
@@ -6,10 +6,10 @@ import { Link } from "react-router-dom";
 
 import { RateService } from "../../services/rateService";
 import { ReviewModel } from "../../models/reviewModel";
+import { API_URL } from "../../api/config";
 import { Typography, Paper } from "@mui/material";
 
 import styles from "./style.module.css";
-import { API_URL } from "../../api/config";
 
 interface ReviewProps {
   review: ReviewModel;

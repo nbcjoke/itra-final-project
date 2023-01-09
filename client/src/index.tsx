@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 
 import Store from "./store/store";
-// import { ThemeProvider } from "./contexts/themeContext";
 import { ThemeContextProvider } from "./contexts/themeContext";
 import App from "./App";
 import "./i18next";

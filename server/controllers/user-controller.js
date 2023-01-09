@@ -26,7 +26,6 @@ class UserController {
       });
       return res.json(userData);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }
@@ -36,7 +35,6 @@ class UserController {
       const { email, password } = req.body;
       const user = await userService.login(email, password);
       const token = jwt.sign(user, process.env.JWT_ACCESS_SECRET);
-      console.log(token);
       res.cookie("token", token, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
@@ -87,7 +85,7 @@ class UserController {
   async deleteUsers(req, res, next) {
     try {
       const { ids } = req.body;
-      const users = await userService.deleteUsers(ids);
+      await userService.deleteUsers(ids);
       return res.json();
     } catch (err) {
       next(err);

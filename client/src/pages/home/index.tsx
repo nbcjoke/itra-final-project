@@ -7,11 +7,8 @@ import { ReviewService } from "../../services/reviewService";
 import { Review } from "../../components/review";
 import { ReviewModel } from "../../models/reviewModel";
 import { TagModel } from "../../models/tagsModel";
-import { Typography, Paper, Button, Box } from "@mui/material";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
+import { Typography, Paper, Button, Box, Tab } from "@mui/material";
+import { TabPanel, TabList, TabContext } from "@mui/lab";
 
 import styles from "./style.module.css";
 

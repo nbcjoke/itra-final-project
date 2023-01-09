@@ -1,5 +1,4 @@
 const { Schema, model, Types } = require("mongoose");
-const rateModel = require("./rate-model");
 const Tag = require("./tags-model");
 
 const ReviewSchema = new Schema({
@@ -14,15 +13,12 @@ const ReviewSchema = new Schema({
 });
 
 ReviewSchema.post("save", async (review) => {
-  console.log(review.tags);
   for (const tag of review.tags) {
     const createdTag = await Tag.findOne({ name: tag });
-    console.log(createdTag);
     if (createdTag) {
       createdTag.count++;
       createdTag.save();
     } else {
-      console.log("create");
       Tag.create({ name: tag, count: 1 });
     }
   }
