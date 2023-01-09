@@ -7,7 +7,7 @@ import { TextareaAutosize, Typography } from "@mui/material";
 import styles from "./style.module.css";
 
 export const MarkedInput = () => {
-  const { setMarkdownText } = useContext(MarkdownContext);
+  const { setMarkdownText, markdownText } = useContext(MarkdownContext);
 
   const { t } = useTranslation();
 
@@ -26,6 +26,7 @@ export const MarkedInput = () => {
         placeholder={t("profile.markdown.markdown") as string}
         className={styles.textarea}
         onChange={handleChange}
+        value={markdownText}
       />
     </div>
   );

@@ -29,7 +29,8 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "/auth/google/callback",
+      callbackURL:
+        "https://immense-scrubland-98892.herokuapp.com/auth/google/callback",
     },
     async function (accessToken, refreshToken, profile, done) {
       let user = await User.findOne({
@@ -54,7 +55,8 @@ passport.use(
     {
       clientID: LINKEDIN_CLIENT_ID,
       clientSecret: LINKEDIN_CLIENT_SECRET,
-      callbackURL: "/auth/linkedin/callback",
+      callbackURL:
+        "https://immense-scrubland-98892.herokuapp.com/auth/linkedin/callback",
     },
     async function (accessToken, refreshToken, profile, done) {
       let user = await User.findOne({

@@ -14,11 +14,14 @@ const multer = require("multer");
 router.get("/users", userController.getUsers);
 router.post("/user/delete", userController.deleteUsers);
 router.put("/user/update", userController.updateStatus);
+router.get("/user", userController.getCurrentUser);
 
 router.post("/review", reviewController.createReview);
 router.get("/reviews", reviewController.getReviews);
 router.get("/user/reviews", reviewController.getUserReviews);
+router.post("/review/delete", reviewController.deleteUserReview);
 router.get("/review/:id", reviewController.getReviewDetails);
+router.put("/review/update", reviewController.updateUserReview);
 
 router.post("/addRate", passport.authenticate("jwt"), rateController.addRate);
 

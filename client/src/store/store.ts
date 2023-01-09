@@ -2,10 +2,10 @@ import { UserModel } from "../models/userModel";
 import { makeAutoObservable } from "mobx";
 import { AuthService } from "../services/authService";
 import axios from "axios";
-import { AuthResponse } from "../models/response/authResponse";
-import { API_URL } from "../api/config";
+import api, { API_URL } from "../api/config";
 import { ReviewService } from "../services/reviewService";
 import { ReviewModel } from "../models/reviewModel";
+import { UserService } from "../services/userService";
 
 export default class Store {
   user = {} as UserModel;
@@ -56,6 +56,7 @@ export default class Store {
     try {
       const response = await AuthService.logout();
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
       this.setAuth(false);
       this.setUser({} as UserModel);
     } catch (e: any) {
@@ -66,13 +67,11 @@ export default class Store {
   async checkAuth() {
     this.setLoading(true);
     try {
-      // const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {
-      //   withCredentials: true,
-      // });
+      const user = await UserService.getCurrentUser();
       // localStorage.setItem("token", response.data.accessToken);
       this.setAuth(true);
       // console.log(response.data);
-      // this.setUser(response.data.user);
+      this.setUser(user);
     } catch (e: any) {
       console.log(e.response?.data?.message);
     } finally {
@@ -83,6 +82,14 @@ export default class Store {
   async createReview(review: ReviewModel) {
     try {
       const response = await ReviewService.createReview(review);
+    } catch (e: any) {
+      console.log(e.response?.data?.message);
+    }
+  }
+
+  async updateUserReview(review: ReviewModel, reviewId: string) {
+    try {
+      await ReviewService.updateUserReview(review, reviewId);
     } catch (e: any) {
       console.log(e.response?.data?.message);
     }

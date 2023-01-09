@@ -23,6 +23,7 @@ i18n
             login: "Login",
             signup: "Signup",
             add: "Add",
+            change: "Update",
           },
           login: {
             email: "Email",
@@ -36,13 +37,14 @@ i18n
           profile: {
             title: "Profile",
             addReview: "Add review",
+            changeReview: "Change review",
             nameOfReview: "Name of review",
             name: "Name",
             groups: "Group",
             group: {
               cinema: "Cinema",
-              game: "Game",
-              book: "Book",
+              game: "Games",
+              book: "Books",
             },
             tags: "tags",
             markdown: {
@@ -75,6 +77,14 @@ i18n
             comment: "Comment...",
             button: "Send Comment",
           },
+          admin: "Admin",
+          homePage: "Home",
+          table: {
+            id: "Id",
+            name: "Name",
+            delete: "Delete",
+            change: "Change",
+          },
         },
       },
       ru: {
@@ -84,6 +94,7 @@ i18n
             login: "Войти",
             signup: "Регистрация",
             add: "Добавить",
+            change: "Обновить",
           },
           login: {
             email: "Адрес почты",
@@ -97,6 +108,7 @@ i18n
           profile: {
             title: "Профиль",
             addReview: "Добавить обзор",
+            changeReview: "Изменить обзор",
             nameOfReview: "Название обзора",
             name: "Название",
             groups: "Группа",
@@ -131,6 +143,14 @@ i18n
             title: "Детали Обзора",
             comment: "Комментарий...",
             button: "Отправить Комментарий",
+          },
+          admin: "Админ",
+          homePage: "Главная",
+          table: {
+            id: "Идентификатор",
+            name: "Название",
+            delete: "Удалить",
+            change: "Изменить",
           },
         },
       },

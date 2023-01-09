@@ -22,3 +22,19 @@
 .button {
   margin-top: 10px;
 }
+
+.imagesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.imageContainer {
+  position: relative;
+}
+
+.deleteFile {
+  position: absolute;
+  top: 0;
+  right: 0;
+}

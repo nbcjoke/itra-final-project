@@ -10,6 +10,9 @@ interface PrivateRouteProps {
 
 export const PrivateRoute: FC<PrivateRouteProps> = ({ children }) => {
   const { store } = useContext(Context);
+  console.log("here");
+
+  console.log(store.isAuth);
 
   return store.isAuth ? children : <Navigate to={"../" + ROUTE_NAMES.LOGIN} />;
 };

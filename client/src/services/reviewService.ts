@@ -26,7 +26,20 @@ export class ReviewService {
       .then((response: AxiosResponse) => response.data);
   }
 
-  static async getUserReviews() {
-    return api.get("/api/user/reviews");
+  static async deleteUserReview(id: string): Promise<any> {
+    return api
+      .post<any>(`/api/review/delete`, { id })
+      .then((response: AxiosResponse) => response.data);
+  }
+
+  static async updateUserReview(
+    review: ReviewModel,
+    reviewId: string
+  ): Promise<AxiosResponse> {
+    return api.put("api/review/update", { review, reviewId });
+  }
+
+  static async getUserReviews(userId: string) {
+    return api.get("/api/user/reviews", { params: { userId } });
   }
 }

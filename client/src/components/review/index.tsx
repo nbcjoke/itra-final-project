@@ -16,20 +16,20 @@ interface ReviewProps {
 }
 
 export const Review: React.FC<ReviewProps> = ({ review }) => {
-  //   const [rate, setRate] = useState<number>();
   const { t } = useTranslation();
 
   const ratingChanged = async (newRate: number, ...args: any) => {
     let user = JSON.parse(localStorage.getItem("user") || "{}");
     await RateService.addRate(user, review, newRate);
-    // setRate(newRate);
   };
 
   return (
     <Paper className={styles.review} key={review._id}>
       <div className={styles.header}>
         <div className={styles.titleContainer}>
-          <h2>{review.name}</h2>
+          <Link to={`/review/${review._id}`}>
+            <h2 className={styles.link}>{review.name}</h2>
+          </Link>
           <ReactStars
             count={5}
             size={40}
@@ -47,14 +47,12 @@ export const Review: React.FC<ReviewProps> = ({ review }) => {
       </div>
       <div className={styles.images}></div>
       <div className={styles.infoContainer}>
-        <Link to={`/review/${review._id}`}>
-          <div className={styles.info}>
-            <Typography variant="h5" className={styles.title}>
-              {t("home.title")}:
-            </Typography>
-            <div className={styles.text}>{review.theme}</div>
-          </div>
-        </Link>
+        <div className={styles.info}>
+          <Typography variant="h5" className={styles.title}>
+            {t("home.title")}:
+          </Typography>
+          <div className={styles.text}>{review.theme}</div>
+        </div>
         <div className={styles.info}>
           <Typography variant="h5" className={styles.title}>
             {t("home.category")}
@@ -70,7 +68,10 @@ export const Review: React.FC<ReviewProps> = ({ review }) => {
       </div>
       <div className={styles.imageContainer}>
         {review.images.map((image) => (
-          <img src={`${API_URL}${image}`} width={250} height={250} />
+          <img
+            src={`${API_URL}${image}`}
+            style={{ maxHeight: 250, maxWidth: 250 }}
+          />
         ))}
       </div>
       <div className={styles.markdown}>

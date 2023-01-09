@@ -21,42 +21,28 @@ router.get(
   passport.authenticate("github", { scope: ["user:email"] })
 );
 
-router.get(
-  "/github/callback",
-  function (req, res, next) {
-    passport.authenticate("github", { session: false }, (err, user, info) => {
-      console.log("here");
-      console.log(err);
-      // Decide what to do on authentication
-      if (err || !user) {
-        return res.redirect(
-          process.env.CLIENT_URL + "/login?error=" + info?.message
-        );
+router.get("/github/callback", function (req, res, next) {
+  passport.authenticate("github", { session: false }, (err, user, info) => {
+    console.log("here");
+    console.log(err);
+    // Decide what to do on authentication
+    if (err || !user) {
+      return res.redirect(
+        process.env.CLIENT_URL + "/login?error=" + info?.message
+      );
+    }
+    req.login(user, { session: false }, (err) => {
+      if (err) {
+        res.status(400).send({ err });
       }
-      req.login(user, { session: false }, (err) => {
-        if (err) {
-          res.status(400).send({ err });
-        }
-        const token = jwt.sign(user.toObject(), process.env.JWT_ACCESS_SECRET);
-        res.cookie("token", token, {
-          domain: process.env.DOMAIN_NAME,
-        });
-        // console.log("here");
-        // console.log(process.env.CLIENT_URL + "/profile");
-        res.redirect(process.env.CLIENT_URL + "/profile");
+      const token = jwt.sign(user.toObject(), process.env.JWT_ACCESS_SECRET);
+      res.cookie("token", token, {
+        domain: process.env.DOMAIN_NAME,
       });
-    })(req, res, next);
-  }
-  // passport.authenticate("github", {
-  //   successRedirect: CLIENT_URL,
-  //   failureRedirect: `${CLIENT_URL}/login`,
-  // }),
-  // function (req, res) {
-  //   console.log("radad");
-  //   console.log(res);
-  //   res.redirect("/");
-  // }
-);
+      res.redirect(process.env.CLIENT_URL + "/profile");
+    });
+  })(req, res, next);
+});
 
 router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
 

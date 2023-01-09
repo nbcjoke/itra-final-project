@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { ReviewModel } from "../../models/reviewModel";
 import { ReviewService } from "../../services/reviewService";
 import { Review } from "../../components/review";
+import { Typography } from "@mui/material";
 
 import styles from "./style.module.css";
 
@@ -23,11 +24,17 @@ export const Category = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.reviewsContainer}>
-        {reviews.map((review) => {
-          return <Review review={review} key={review._id} />;
-        })}
-      </div>
+      {reviews.length ? (
+        <>
+          <div className={styles.reviewsContainer}>
+            {reviews.map((review) => {
+              return <Review review={review} key={review._id} />;
+            })}
+          </div>
+        </>
+      ) : (
+        <Typography variant="h4">No Reviews yet</Typography>
+      )}
     </div>
   );
 };

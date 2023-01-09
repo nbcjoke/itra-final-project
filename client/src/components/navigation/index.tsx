@@ -46,26 +46,14 @@ export const Navigation: FC = () => {
 
   const categories = ["game", "book", "cinema"];
 
-  // const categories = [
-  //   {
-  //     game: `${t("profile.group.game")}`,
-  //   },
-  //   {
-  //     book: `${t("profile.group.book")}`,
-  //   },
-  //   {
-  //     cinema: `${t("profile.group.cinema")}`,
-  //   },
-  // ];
-
   return (
     <div className={styles.navigation}>
       <div className={styles.navigation__left}>
-        <Link to="/">Home</Link>
+        <Link to="/">{t("homePage")}</Link>
         {categories.map((category, index) => {
           return (
             <Link to={category} key={index}>
-              {category}
+              {t(`profile.group.${category}`)}
             </Link>
           );
         })}
@@ -82,7 +70,6 @@ export const Navigation: FC = () => {
           >
             <MenuItem value="en">English</MenuItem>
             <MenuItem value="ru">Русский</MenuItem>
-            {/* <MenuItem value="chi">Китай</MenuItem> */}
           </Select>
         </FormControl>
         <div>
@@ -92,7 +79,8 @@ export const Navigation: FC = () => {
         </div>
         {store.isAuth ? (
           <>
-            <Link to="/profile">{t("profile.title")}</Link>
+            <Link to="/admin">{t("admin")}</Link>
+            <Link to={`/profile/${store.user._id}`}>{t("profile.title")}</Link>
             <Button variant="contained" onClick={() => store.logout()}>
               {t("button.logout")}
             </Button>

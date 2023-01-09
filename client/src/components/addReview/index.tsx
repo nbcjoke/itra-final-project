@@ -18,13 +18,21 @@ import {
   Autocomplete,
   Button,
   Paper,
+  IconButton,
 } from "@mui/material";
+import { Delete, Create } from "@mui/icons-material";
 
 import styles from "./style.module.css";
 import { ImageService } from "../../services/imageService";
 import { API_URL } from "../../api/config";
+import { ReviewModel } from "../../models/reviewModel";
 
-export const AddReview: FC = () => {
+interface Props {
+  review?: ReviewModel;
+  cancelEdit: () => void;
+}
+
+export const AddReview: FC<Props> = ({ review, cancelEdit }) => {
   const [markdownText, setMarkdownText] = useState("");
   const [tags, setTags] = useState([]);
   const [images, setImages] = useState<string[]>([]);
@@ -36,7 +44,7 @@ export const AddReview: FC = () => {
 
   const { t } = useTranslation();
 
-  const { formValues, handleChange } = useForm({
+  const { formValues, handleChange, handleReset } = useForm({
     name: "",
     theme: "",
     group: "",
@@ -54,8 +62,24 @@ export const AddReview: FC = () => {
     setMarkdownText,
   };
 
+  useEffect(() => {
+    if (review) {
+      handleChange(review);
+      //   setTags;
+      setMarkdownText(review.description);
+      setRate(review.rate);
+      setImages(review.images);
+    }
+  }, [review]);
+
   const autocompleteChange = (event: any, tags: string[]) => {
-    handleChange({ target: { name: "tags", value: tags } });
+    handleChange({ tags });
+  };
+
+  const inputChange = (event: any) => {
+    const { name, value } = event.target;
+    console.log(name, value);
+    handleChange({ [name]: value });
   };
 
   const onFileSelect = async (file?: File) => {
@@ -67,28 +91,60 @@ export const AddReview: FC = () => {
   };
 
   const deleteFile = (imageIndex: number) => {
-    const deletedImage = images.filter((image, index) => index !== imageIndex);
+    const deletedImage = images.filter((_, index) => index !== imageIndex);
     setImages(deletedImage);
   };
 
   useEffect(() => {
     const fetchTags = async () => {
-      const response: any = await TagService.getTags();
+      const response = await TagService.getTags();
       setTags(response.map(({ name }: any) => name));
     };
     fetchTags();
   }, []);
 
+  const handleSave = () => {
+    if (review) {
+      store.updateUserReview(
+        {
+          ...formValues,
+          description: markdownText,
+          rate: rate,
+          user: user,
+          images,
+        },
+        review._id
+      );
+      handleReset();
+      setMarkdownText("");
+      setRate(0);
+      setImages([]);
+      cancelEdit();
+      return;
+    }
+    store.createReview({
+      ...formValues,
+      description: markdownText,
+      rate: rate,
+      user: user,
+      images,
+    });
+  };
+
   return (
     <Paper className={styles.container}>
-      <Typography variant="h4">{t("profile.addReview")}</Typography>
+      {review ? (
+        <Typography variant="h4">{t("profile.changeReview")}</Typography>
+      ) : (
+        <Typography variant="h4">{t("profile.addReview")}</Typography>
+      )}
       <TextField
         label={t("profile.nameOfReview")}
         name="name"
         variant="outlined"
         type="text"
         value={formValues.name}
-        onChange={handleChange}
+        onChange={inputChange}
       />
       <TextField
         label={t("profile.name")}
@@ -96,7 +152,7 @@ export const AddReview: FC = () => {
         name="theme"
         type="text"
         value={formValues.theme}
-        onChange={handleChange}
+        onChange={inputChange}
       />
       <FormControl>
         <InputLabel>{t("profile.groups")}</InputLabel>
@@ -105,7 +161,7 @@ export const AddReview: FC = () => {
           value={formValues.group}
           name="group"
           label="Group"
-          onChange={handleChange}
+          onChange={inputChange}
         >
           <MenuItem value="cinema">{t("profile.group.cinema")}</MenuItem>
           <MenuItem value="game">{t("profile.group.game")}</MenuItem>
@@ -117,6 +173,7 @@ export const AddReview: FC = () => {
         multiple
         id="tags-standard"
         options={tags}
+        value={formValues.tags}
         freeSolo
         onChange={autocompleteChange}
         renderInput={(params) => (
@@ -141,15 +198,28 @@ export const AddReview: FC = () => {
         type="file"
         accept="image/*"
       />
-      {images.map((image, index) => (
-        <div key={image}>
-          <img
-            src={`${API_URL}${image}`}
-            style={{ maxWidth: "100px", maxHeight: "100px" }}
-          />
-          <Button onClick={() => deleteFile(index)}>delete</Button>
-        </div>
-      ))}
+      <div className={styles.imagesContainer}>
+        {images.map((image, index) => (
+          <div key={image} className={styles.imageContainer}>
+            <img
+              src={`${API_URL}${image}`}
+              style={{
+                maxWidth: "250px",
+                maxHeight: "250px",
+              }}
+            />
+            <div className={styles.deleteFile}>
+              <IconButton
+                sx={{ ml: 1 }}
+                onClick={() => deleteFile(index)}
+                color="inherit"
+              >
+                <Delete />
+              </IconButton>
+            </div>
+          </div>
+        ))}
+      </div>
       <MarkdownContext.Provider value={contextValue}>
         <div className={styles.markdown__container}>
           <MarkedInput />
@@ -159,17 +229,9 @@ export const AddReview: FC = () => {
       <Button
         className={styles.button}
         variant="contained"
-        onClick={() =>
-          store.createReview({
-            ...formValues,
-            description: markdownText,
-            rate: rate,
-            user: user,
-            images,
-          })
-        }
+        onClick={() => handleSave()}
       >
-        {t("button.add")}
+        {review ? t("button.change") : t("button.add")}
       </Button>
     </Paper>
   );

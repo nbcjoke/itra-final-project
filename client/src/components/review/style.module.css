@@ -36,6 +36,15 @@
   gap: 10px;
 }
 
+.link {
+  color: var(--mui-palette-primary-main);
+  transition: 0.3s;
+}
+
+.link:hover {
+  color: var(--mui-palette-primary-dark);
+}
+
 .markdown {
   width: 100%;
   max-width: 650px;

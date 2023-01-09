@@ -7,14 +7,12 @@ class UserController {
   async registration(req, res, next) {
     try {
       const errors = validationResult(req);
-      console.log(errors);
       if (!errors.isEmpty()) {
         return next(
           ApiError.badRequest("Ошибка при валидации", errors.array())
         );
       }
       const { email, password, name } = req.body;
-      // console.log(req.body);
       const userData = await userService.registration(email, password, name);
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -45,7 +43,6 @@ class UserController {
 
   async logout(req, res, next) {
     try {
-      // const { refreshToken } = req.cookies;
       const token = await userService.logout();
       res.clearCookie("token");
       return res.json(token);
@@ -58,15 +55,6 @@ class UserController {
     try {
       const { refreshToken } = req.cookies;
       const userData = await userService.refresh(refreshToken);
-      // console.log(userData);
-      // res.cookie("refreshToken", userData.refreshToken, {
-      //   maxAge: 30 * 24 * 60 * 60 * 1000,
-      //   httpOnly: true,
-      // });
-      // res.cookie("accessToken", userData.accessToken, {
-      //   maxAge: 30 * 24 * 60 * 60 * 1000,
-      //   httpOnly: true,
-      // });
       return res.json(userData);
     } catch (err) {
       next(err);
@@ -77,6 +65,14 @@ class UserController {
     try {
       const users = await userService.getAllUsers();
       return res.json(users);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getCurrentUser(req, res, next) {
+    try {
+      return res.json(req.user);
     } catch (err) {
       next(err);
     }

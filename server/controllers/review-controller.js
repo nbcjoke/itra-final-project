@@ -1,6 +1,6 @@
 const ReviewModel = require("../models/review-model");
 const RateModel = require("../models/rate-model");
-const userModel = require("../models/user-model");
+const UserModel = require("../models/user-model");
 
 class ReviewController {
   async createReview(req, res, next) {
@@ -43,9 +43,11 @@ class ReviewController {
         );
         console.log("rates", await RateModel.find());
         reviews = reviews.map((review) => {
-          const rate = rates.find((rate) => {
-            return rate.review._id.equals(review._id);
-          });
+          const rate = rates
+            .filter((rate) => !!rate.review)
+            .find((rate) => {
+              return rate.review._id.equals(review._id);
+            });
           review.userRate = rate?.rate || 0;
           return review;
         });
@@ -85,7 +87,7 @@ class ReviewController {
 
       //   console.log(reviewId);
       const result = await ReviewModel.findOne({ _id: id }).populate("user");
-      console.log(result);
+      //   console.log(result);
       res.status(200).json(result);
     } catch (err) {
       res.status(500).json(err);
@@ -94,14 +96,47 @@ class ReviewController {
 
   async getUserReviews(req, res, next) {
     try {
-      const user = await userModel.findById(req.user._id);
-      const result = await ReviewModel.find({ user: req.user._id }).populate(
-        "user"
-      );
+      const userId = req.query.userId;
+      const result = await ReviewModel.find({ user: userId }).populate("user");
       console.log("result", result);
       res.status(200).json(result);
     } catch (err) {
       res.status(500).json(err);
+    }
+  }
+
+  async deleteUserReview(req, res, next) {
+    try {
+      const { id } = req.body;
+
+      console.log(id);
+
+      const reviews = await ReviewModel.deleteOne({ _id: id });
+      res.status(200).json(reviews);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
+  async updateUserReview(req, res, next) {
+    try {
+      const { name, theme, group, description, tags, images, rate } =
+        req.body.review;
+      const { reviewId } = req.body;
+
+      const result = await ReviewModel.find({ _id: reviewId }).updateOne({
+        name,
+        theme,
+        group,
+        description,
+        tags,
+        rate,
+        images,
+      });
+      return res.json(result);
+    } catch (err) {
+      console.log(err);
+      next(err);
     }
   }
 }

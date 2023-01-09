@@ -26,7 +26,7 @@ const App: FC = () => {
       Cookies.remove("token");
     }
 
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem("token") && !store.isAuth) {
       store.checkAuth();
     }
   }, [store.isAuth]);
