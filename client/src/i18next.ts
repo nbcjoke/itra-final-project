@@ -79,6 +79,7 @@ i18n
           },
           admin: "Admin",
           homePage: "Home",
+          noReviews: "No Reviews Yet",
           table: {
             id: "Id",
             name: "Name",
@@ -146,6 +147,7 @@ i18n
           },
           admin: "Админ",
           homePage: "Главная",
+          noReviews: "Нет обзоров",
           table: {
             id: "Идентификатор",
             name: "Название",

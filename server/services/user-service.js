@@ -6,7 +6,7 @@ const UserDto = require("../dtos/user-dto");
 const ApiError = require("../exceptions/api-error");
 
 class UserService {
-  async registration(email, password, name) {
+  async registration(email, password, name, isAdmin) {
     const candidate = await UserModel.findOne({ email });
     if (candidate) {
       throw ApiError.BadRequestError(
@@ -20,9 +20,7 @@ class UserService {
       email,
       password: hashPassword,
       name,
-      status: false,
-      registrationTime: date,
-      lastOnline: date,
+      isAdmin,
     });
 
     // const userDto = new UserDto(user);
@@ -54,7 +52,6 @@ class UserService {
   }
 
   async refresh(refreshToken) {
-    // console.log(refreshToken);
     if (!refreshToken) {
       throw ApiError.UnauthorizedError();
     }
@@ -64,7 +61,6 @@ class UserService {
     if (!userData || !tokenFromDb) {
       throw ApiError.UnauthorizedError();
     }
-    // console.log(userData);
 
     // const user = await UserModel.find({ _id: refreshToken._id });
     const userDto = new UserDto(userData);

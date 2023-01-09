@@ -30,6 +30,8 @@ export const Navigation: FC = () => {
   const { mode, toggleTheme } = useContext(ThemeContext);
   const { setMode } = useColorScheme();
 
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
   useEffect(() => {
     i18n.changeLanguage(language);
   }, [language]);
@@ -79,7 +81,7 @@ export const Navigation: FC = () => {
         </div>
         {store.isAuth ? (
           <>
-            <Link to="/admin">{t("admin")}</Link>
+            {user.isAdmin ? <Link to="/admin">{t("admin")}</Link> : null}
             <Link to={`/profile/${store.user._id}`}>{t("profile.title")}</Link>
             <Button variant="contained" onClick={() => store.logout()}>
               {t("button.logout")}

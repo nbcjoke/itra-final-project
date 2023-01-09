@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { ReviewModel } from "../../models/reviewModel";
 import { ReviewService } from "../../services/reviewService";
@@ -12,6 +13,8 @@ export const Category = () => {
   const [reviews, setReviews] = useState<ReviewModel[]>([]);
 
   const { category }: any = useParams();
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchReviewsByCategory();
@@ -33,7 +36,7 @@ export const Category = () => {
           </div>
         </>
       ) : (
-        <Typography variant="h4">No Reviews yet</Typography>
+        <Typography variant="h4">{t("noReviews")}</Typography>
       )}
     </div>
   );

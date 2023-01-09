@@ -111,7 +111,11 @@ export const Home: FC = () => {
             <Button onClick={() => setOffset(offset + 1)} variant="contained">
               Show More
             </Button>
-            <Button onClick={handleReset} variant="contained">
+            <Button
+              onClick={handleReset}
+              variant="contained"
+              disabled={offset === 1}
+            >
               Reset
             </Button>
           </div>

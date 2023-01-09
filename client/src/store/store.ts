@@ -1,8 +1,6 @@
 import { UserModel } from "../models/userModel";
 import { makeAutoObservable } from "mobx";
 import { AuthService } from "../services/authService";
-import axios from "axios";
-import api, { API_URL } from "../api/config";
 import { ReviewService } from "../services/reviewService";
 import { ReviewModel } from "../models/reviewModel";
 import { UserService } from "../services/userService";

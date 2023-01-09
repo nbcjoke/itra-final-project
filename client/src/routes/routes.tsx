@@ -9,6 +9,7 @@ import { ReviewDetails } from "../pages/reviewDetails";
 import { Admin } from "../pages/admin";
 import { ROUTE_NAMES } from "./routeNames";
 import { PrivateRoute } from "./privateRoute";
+import { AdminRoute } from "./adminRoute";
 
 export const Router = () => {
   return (
@@ -18,7 +19,14 @@ export const Router = () => {
       <Route path={ROUTE_NAMES.SIGNUP} element={<SignUp />} />
       <Route path={ROUTE_NAMES.CATEGORY} element={<Category />} />
       <Route path={ROUTE_NAMES.REVIEW} element={<ReviewDetails />} />
-      <Route path={ROUTE_NAMES.ADMIN} element={<Admin />} />
+      <Route
+        path={ROUTE_NAMES.ADMIN}
+        element={
+          <AdminRoute>
+            <Admin />
+          </AdminRoute>
+        }
+      />
       <Route
         path={ROUTE_NAMES.PROFILE}
         element={
