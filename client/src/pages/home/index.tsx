@@ -84,7 +84,7 @@ export const Home: FC = () => {
         </Box>
         <TabPanel value="1">
           <Typography variant="h4" className={styles.title}>
-            Tag Cloud
+            {t("home.cloud")}
           </Typography>
           <Paper className={styles.tagCloud}>
             <TagCloud
@@ -106,14 +106,14 @@ export const Home: FC = () => {
           </div>
           <div className={styles.buttonContainer}>
             <Button onClick={() => setOffset(offset + 1)} variant="contained">
-              Show More
+              {t("button.showMore")}
             </Button>
             <Button
               onClick={handleReset}
               variant="contained"
               disabled={offset === 1}
             >
-              Reset
+              {t("button.reset")}
             </Button>
           </div>
         </TabPanel>

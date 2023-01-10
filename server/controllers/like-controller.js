@@ -9,7 +9,6 @@ class LikeController {
         user: req.user.id,
         review: reviewId,
       });
-      console.log(like);
 
       if (!like) {
         like = await LikeModel.create({
@@ -26,7 +25,6 @@ class LikeController {
       const likeObj = await like.populate("user review");
       res.status(200).json(likeObj);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }

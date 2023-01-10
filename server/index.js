@@ -10,7 +10,6 @@ const authRouter = require("./router/auth");
 const errorMiddleware = require("./middlewares/error-middleware");
 const path = require("path");
 const passportSetup = require("./passport");
-const authMiddleware = require("./middlewares/auth-middleware");
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -31,7 +30,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
-app.use("/api", authMiddleware, router);
+app.use("/api", router);
 app.use("/auth", authRouter);
 app.use(errorMiddleware);
 

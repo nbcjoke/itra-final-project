@@ -8,6 +8,7 @@ const commentController = require("../controllers/comment-controller");
 const router = new Router();
 const passport = require("passport");
 const multer = require("multer");
+const authMiddleware = require("../middlewares/auth-middleware");
 
 router.get("/users", userController.getUsers);
 router.post("/user/delete", userController.deleteUsers);
@@ -28,7 +29,11 @@ router.post("/like", passport.authenticate("jwt"), likeController.like);
 router.get("/tags", tagController.getTags);
 
 router.get("/comments/:reviewId", commentController.getComments);
-router.post("/comment", commentController.createComment);
+router.post(
+  "/comment",
+  passport.authenticate("jwt"),
+  commentController.createComment
+);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

@@ -7,8 +7,8 @@ class ReviewController {
     try {
       const { name, theme, group, description, tags, images, rate } =
         req.body.review;
-      //   const user = req.user._id;
       const { userId } = req.params;
+
       const result = await ReviewModel.create({
         name,
         theme,
@@ -74,12 +74,6 @@ class ReviewController {
         const likesCount = await likeModel.aggregate([
           { $match: { review: review._id } },
           { $count: "likes" },
-          // {
-          //   $group: {
-          //     _id: "$review",
-          //     rate: { $avg: "$rate" },
-          //   },
-          // },
         ]);
         review.likes = likesCount[0]?.likes || 0;
       }
@@ -103,8 +97,37 @@ class ReviewController {
     try {
       const { id } = req.params;
 
-      const result = await ReviewModel.findOne({ _id: id }).populate("user");
-      res.status(200).json(result);
+      const review = await ReviewModel.findOne({ _id: id })
+        .populate("user")
+        .lean();
+      if (req.user) {
+        const rate = await RateModel.findOne({
+          user: req.user._id,
+          review: id,
+        }).populate("review");
+        const like = await likeModel
+          .findOne({ user: req.user._id, review: id })
+          .populate("review");
+        review.userRate = rate?.rate || 0;
+        review.liked = !!like;
+      }
+      const averageRate = await RateModel.aggregate([
+        { $match: { review: review._id } },
+        {
+          $group: {
+            _id: "$review",
+            rate: { $avg: "$rate" },
+          },
+        },
+      ]);
+      review.averageRate = averageRate[0]?.rate || 0;
+
+      const likesCount = await likeModel.aggregate([
+        { $match: { review: review._id } },
+        { $count: "likes" },
+      ]);
+      review.likes = likesCount[0]?.likes || 0;
+      res.status(200).json(review);
     } catch (err) {
       next(err);
     }

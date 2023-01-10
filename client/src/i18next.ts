@@ -17,6 +17,8 @@ i18n.use(initReactI18next).init({
           signup: "Signup",
           add: "Add",
           change: "Update",
+          showMore: "Show More",
+          reset: "Reset",
         },
         login: {
           email: "Email",
@@ -89,6 +91,8 @@ i18n.use(initReactI18next).init({
           signup: "Регистрация",
           add: "Добавить",
           change: "Обновить",
+          showMore: "Загрузить Еще",
+          reset: "Обновить",
         },
         login: {
           email: "Адрес почты",

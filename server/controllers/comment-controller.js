@@ -13,7 +13,6 @@ class CommentController {
       const rateObject = await result.populate("user review");
       res.status(200).json(rateObject);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }
@@ -24,7 +23,6 @@ class CommentController {
       const result = await CommentModel.find({ review: reviewId }).populate(
         "review user"
       );
-      console.log(result);
       res.status(200).json(result);
     } catch (err) {
       res.status(500).json(err);

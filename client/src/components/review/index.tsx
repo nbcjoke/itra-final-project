@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 import ReactStars from "react-stars";
 import { Link } from "react-router-dom";
+import JsPDF from "jspdf";
 
 import { RateService } from "../../services/rateService";
 import { LikeService } from "../../services/likeService";
@@ -31,14 +32,17 @@ export const Review: React.FC<ReviewProps> = ({ review }) => {
     await LikeService.addLike(review._id);
     if (liked) {
       setLikes((prev) => prev - 1);
-      console.log(likes);
     } else {
       setLikes((prev) => prev + 1);
-      console.log(likes);
     }
   };
 
-  useEffect(() => {});
+  const generatePDF = () => {
+    const review = new JsPDF("portrait", "px", "a4");
+    review.html(document.querySelector("#review") as HTMLElement).then(() => {
+      review.save("review.pdf");
+    });
+  };
 
   return (
     <Paper className={styles.review} key={review._id}>
@@ -103,6 +107,9 @@ export const Review: React.FC<ReviewProps> = ({ review }) => {
         </div>
       </div>
       <div className={styles.rateContainer}>
+        <Button variant="contained" onClick={generatePDF}>
+          pdf
+        </Button>
         <Button variant="contained" onClick={like}>
           {liked ? "Unlike" : "Like"}
         </Button>
