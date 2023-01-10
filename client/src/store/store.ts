@@ -71,9 +71,9 @@ export default class Store {
     }
   }
 
-  async createReview(review: ReviewModel) {
+  async createReview(review: ReviewModel, userId: string) {
     try {
-      const response = await ReviewService.createReview(review);
+      const response = await ReviewService.createReview(review, userId);
     } catch (e: any) {
       console.log(e.response?.data?.message);
     }

@@ -1,6 +1,7 @@
 import { FC, useState, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ReactStars from "react-stars";
+import { useParams } from "react-router-dom";
 
 import { TagService } from "../../services/tagService";
 import { Context } from "../../index";
@@ -39,6 +40,8 @@ export const AddReview: FC<Props> = ({ review, cancelEdit }) => {
   const [rate, setRate] = useState<number>();
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  const { userId }: any = useParams();
 
   const { store } = useContext(Context);
 
@@ -121,13 +124,15 @@ export const AddReview: FC<Props> = ({ review, cancelEdit }) => {
       cancelEdit();
       return;
     }
-    store.createReview({
-      ...formValues,
-      description: markdownText,
-      rate: rate,
-      user: user,
-      images,
-    });
+    store.createReview(
+      {
+        ...formValues,
+        description: markdownText,
+        rate: rate,
+        images,
+      },
+      userId
+    );
   };
 
   return (

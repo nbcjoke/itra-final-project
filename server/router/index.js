@@ -14,7 +14,7 @@ router.post("/user/delete", userController.deleteUsers);
 router.put("/user/update", userController.updateStatus);
 router.get("/user", userController.getCurrentUser);
 
-router.post("/review", reviewController.createReview);
+router.post("/create/review/:userId", reviewController.createReview);
 router.get("/reviews", reviewController.getReviews);
 router.get("/user/reviews", reviewController.getUserReviews);
 router.post("/review/delete", reviewController.deleteUserReview);
@@ -23,7 +23,7 @@ router.put("/review/update", reviewController.updateUserReview);
 
 router.post("/addRate", passport.authenticate("jwt"), rateController.addRate);
 
-router.post("/addRate", passport.authenticate("jwt"), likeController.like);
+router.post("/like", passport.authenticate("jwt"), likeController.like);
 
 router.get("/tags", tagController.getTags);
 

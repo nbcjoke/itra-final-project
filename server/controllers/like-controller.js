@@ -3,15 +3,28 @@ const LikeModel = require("../models/like-model");
 class LikeController {
   async like(req, res, next) {
     try {
-      const { user, review } = req.body;
+      const { reviewId } = req.body;
 
-      const result = await LikeModel.create({
-        user: user._id,
-        review: review._id,
-        rate,
+      let like = await LikeModel.findOne({
+        user: req.user.id,
+        review: reviewId,
       });
-      const rateObject = await result.populate("user review");
-      res.status(200).json(rateObject);
+      console.log(like);
+
+      if (!like) {
+        like = await LikeModel.create({
+          user: req.user._id,
+          review: reviewId,
+        });
+      } else {
+        await LikeModel.deleteOne({
+          user: req.user._id,
+          review: reviewId,
+        });
+      }
+
+      const likeObj = await like.populate("user review");
+      res.status(200).json(likeObj);
     } catch (err) {
       console.log(err);
       next(err);

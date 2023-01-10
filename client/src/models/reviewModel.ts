@@ -11,4 +11,6 @@ export interface ReviewModel {
   userRate?: number;
   averageRate?: number;
   images: string[];
+  liked: boolean;
+  likes: number;
 }

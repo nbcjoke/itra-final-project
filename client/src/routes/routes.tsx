@@ -30,9 +30,9 @@ export const Router = () => {
       <Route
         path={ROUTE_NAMES.PROFILE}
         element={
-          // <PrivateRoute>
-          <Profile />
-          // </PrivateRoute>
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
         }
       />
     </Routes>

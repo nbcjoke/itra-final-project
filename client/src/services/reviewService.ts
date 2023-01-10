@@ -3,8 +3,11 @@ import { AxiosResponse } from "axios";
 import { ReviewModel } from "../models/reviewModel";
 
 export class ReviewService {
-  static async createReview(review: ReviewModel): Promise<AxiosResponse> {
-    return api.post("/api/review", { review });
+  static async createReview(
+    review: ReviewModel,
+    userId: string
+  ): Promise<AxiosResponse> {
+    return api.post(`/api/create/review/${userId}`, { review });
   }
 
   static async getReviews(

@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 import ReactStars from "react-stars";
 import { Link } from "react-router-dom";
 
 import { RateService } from "../../services/rateService";
+import { LikeService } from "../../services/likeService";
 import { ReviewModel } from "../../models/reviewModel";
 import { API_URL } from "../../api/config";
-import { Typography, Paper } from "@mui/material";
+import { Typography, Paper, Button } from "@mui/material";
 
 import styles from "./style.module.css";
 
@@ -16,12 +17,28 @@ interface ReviewProps {
 }
 
 export const Review: React.FC<ReviewProps> = ({ review }) => {
+  const [liked, setLiked] = useState<boolean>(review.liked);
+  const [likes, setLikes] = useState<number>(review.likes);
   const { t } = useTranslation();
 
   const ratingChanged = async (newRate: number, ...args: any) => {
     let user = JSON.parse(localStorage.getItem("user") || "{}");
     await RateService.addRate(user, review, newRate);
   };
+
+  const like = async () => {
+    setLiked(!liked);
+    await LikeService.addLike(review._id);
+    if (liked) {
+      setLikes((prev) => prev - 1);
+      console.log(likes);
+    } else {
+      setLikes((prev) => prev + 1);
+      console.log(likes);
+    }
+  };
+
+  useEffect(() => {});
 
   return (
     <Paper className={styles.review} key={review._id}>
@@ -86,7 +103,10 @@ export const Review: React.FC<ReviewProps> = ({ review }) => {
         </div>
       </div>
       <div className={styles.rateContainer}>
-        <h2>likes</h2>
+        <Button variant="contained" onClick={like}>
+          {liked ? "Unlike" : "Like"}
+        </Button>
+        <div>{likes}</div>
         <ReactStars
           count={5}
           onChange={ratingChanged}

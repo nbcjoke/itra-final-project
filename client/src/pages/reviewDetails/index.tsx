@@ -24,6 +24,14 @@ export const ReviewDetails: FC = () => {
   useEffect(() => {
     fetchReviewDetails(id);
     fetchComments(id);
+
+    let interval = setInterval(() => {
+      fetchComments(id);
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   const fetchReviewDetails = async (id: string) => {
@@ -36,7 +44,7 @@ export const ReviewDetails: FC = () => {
     setComments(response);
   };
 
-  const sendMessage = async () => {
+  const sendComment = async () => {
     if (!review) {
       return;
     }
@@ -44,7 +52,7 @@ export const ReviewDetails: FC = () => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <Typography variant="h4" className={styles.title}>
         {t("reviewDetails.title")}
       </Typography>
@@ -69,7 +77,7 @@ export const ReviewDetails: FC = () => {
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <Button variant="contained" onClick={sendMessage}>
+        <Button variant="contained" onClick={sendComment}>
           {t("reviewDetails.button")}
         </Button>
       </div>

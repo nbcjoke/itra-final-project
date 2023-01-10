@@ -1,12 +1,14 @@
 const ReviewModel = require("../models/review-model");
 const RateModel = require("../models/rate-model");
+const likeModel = require("../models/like-model");
 
 class ReviewController {
   async createReview(req, res, next) {
     try {
       const { name, theme, group, description, tags, images, rate } =
         req.body.review;
-      const user = req.user._id;
+      //   const user = req.user._id;
+      const { userId } = req.params;
       const result = await ReviewModel.create({
         name,
         theme,
@@ -14,7 +16,7 @@ class ReviewController {
         description,
         tags,
         rate,
-        user,
+        user: userId,
         images,
       });
 
@@ -38,13 +40,22 @@ class ReviewController {
         const rates = await RateModel.find({ user: req.user._id }).populate(
           "review"
         );
+        const likes = await likeModel
+          .find({ user: req.user._id })
+          .populate("review");
         reviews = reviews.map((review) => {
           const rate = rates
             .filter((rate) => !!rate.review)
             .find((rate) => {
               return rate.review._id.equals(review._id);
             });
+          const liked = !!likes
+            .filter((like) => !!like.review)
+            .find((like) => {
+              return like.review._id.equals(review._id);
+            });
           review.userRate = rate?.rate || 0;
+          review.liked = liked;
           return review;
         });
       }
@@ -59,6 +70,18 @@ class ReviewController {
           },
         ]);
         review.averageRate = averageRate[0]?.rate || 0;
+
+        const likesCount = await likeModel.aggregate([
+          { $match: { review: review._id } },
+          { $count: "likes" },
+          // {
+          //   $group: {
+          //     _id: "$review",
+          //     rate: { $avg: "$rate" },
+          //   },
+          // },
+        ]);
+        review.likes = likesCount[0]?.likes || 0;
       }
       const startIndex = (offset - 1) * limit;
       const endIndex = offset * limit;

@@ -10,6 +10,7 @@ import { SocialAuth } from "../../components/socialAuth";
 import { Divider, Chip } from "@mui/material";
 
 import styles from "./style.module.css";
+import { UserService } from "../../services/userService";
 
 const Login: FC = () => {
   const { store } = useContext(Context);
@@ -18,9 +19,13 @@ const Login: FC = () => {
 
   const navigate = useNavigate();
 
+  const getUser = async () => {
+    return await UserService.getCurrentUser();
+  };
+
   useEffect(() => {
     if (store.isAuth) {
-      navigate(ROUTE_NAMES.PROFILE);
+      navigate(`/profile/${store.user._id}`);
     }
   }, [store.isAuth]);
 

@@ -34,7 +34,7 @@ router.get("/github/callback", function (req, res, next) {
       res.cookie("token", token, {
         domain: process.env.DOMAIN_NAME,
       });
-      res.redirect(process.env.CLIENT_URL + "/profile");
+      res.redirect(process.env.CLIENT_URL + `/profile/${user.id}`);
     });
   })(req, res, next);
 });
@@ -56,7 +56,7 @@ router.get("/google/callback", function (req, res, next) {
       res.cookie("token", token, {
         domain: process.env.DOMAIN_NAME,
       });
-      res.redirect(process.env.CLIENT_URL + "/profile");
+      res.redirect(process.env.CLIENT_URL + `/profile/${user.id}`);
     });
   })(req, res, next);
 });
@@ -83,7 +83,7 @@ router.get("/linkedin/callback", function (req, res, next) {
       res.cookie("token", token, {
         domain: process.env.DOMAIN_NAME,
       });
-      res.redirect(process.env.CLIENT_URL + "/profile");
+      res.redirect(process.env.CLIENT_URL + `/profile/${user.id}`);
     });
   })(req, res, next);
 });
